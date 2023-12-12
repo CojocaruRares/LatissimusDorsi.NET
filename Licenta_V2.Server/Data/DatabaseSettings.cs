@@ -1,0 +1,10 @@
+﻿namespace Licenta_V2.Server.Data
+{
+    public class DatabaseSettings
+    {
+        public string CollectionUsers { get; set; } = String.Empty;
+        public string DatabaseName { get; set; } = String.Empty;
+        public string Connection { get; set; } = String.Empty;
+
+    }
+}

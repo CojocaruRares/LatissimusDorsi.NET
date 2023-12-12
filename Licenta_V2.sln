@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Licenta_V2.Server", "Licenta_V2.Server\Licenta_V2.Server.csproj", "{D8424F26-4E1A-4385-8BE7-D6B4C2759D86}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "licenta_v2.client", "licenta_v2.client\licenta_v2.client.esproj", "{26DA32D1-811E-49B4-8FDA-9FD4833C93DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8424F26-4E1A-4385-8BE7-D6B4C2759D86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8424F26-4E1A-4385-8BE7-D6B4C2759D86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8424F26-4E1A-4385-8BE7-D6B4C2759D86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8424F26-4E1A-4385-8BE7-D6B4C2759D86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26DA32D1-811E-49B4-8FDA-9FD4833C93DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26DA32D1-811E-49B4-8FDA-9FD4833C93DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26DA32D1-811E-49B4-8FDA-9FD4833C93DE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{26DA32D1-811E-49B4-8FDA-9FD4833C93DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26DA32D1-811E-49B4-8FDA-9FD4833C93DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26DA32D1-811E-49B4-8FDA-9FD4833C93DE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9EC905A6-4575-4F25-9A44-BA095894EBBF}
+	EndGlobalSection
+EndGlobal
