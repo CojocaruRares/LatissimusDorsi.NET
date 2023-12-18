@@ -15,5 +15,8 @@ namespace Licenta_V2.Server.Models
 
         [BsonElement("Address")]
         public string address { get; set; } = String.Empty;
+
+        [BsonElement("Description")]
+        public string description { get; set; } = String.Empty;
     }
 }
