@@ -20,19 +20,13 @@ namespace Licenta_V2.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<List<User>> Get()
+        [Route("GetUser")]
+        public async Task<User> Get(string id)
         {
-            return await _userService.GetAsync();
+            return await _userService.GetAsync(id);
         }
 
-        //metoda asta o folosesc pt test
-        [HttpGet]
-        [Route("GetWithID")]
-        public async Task<string> Get(string id)
-        {
-            return await _firebaseAuthService.GetRoleForUser(id);
-        }
-
+       
         [HttpPost]
         [Route("PostUser")]
         public async Task<IActionResult> Post([FromBody] AuthDTO authdto)
