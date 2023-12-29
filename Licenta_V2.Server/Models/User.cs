@@ -26,7 +26,6 @@ namespace Licenta_V2.Server.Models
         public int weight { get; set; }
 
         [BsonElement("Objective")]
-        [BsonRepresentation(BsonType.String)]
         public string Objective { get; set; } = String.Empty;
 
         [BsonElement("Gender")]
@@ -34,6 +33,9 @@ namespace Licenta_V2.Server.Models
 
         [BsonElement("BodyFatPercentage")]
         public int BodyFatPercentage { get; set; }
+
+        [BsonElement("ProfileImage")]
+        public string profileImage { get; set; } = String.Empty;
 
     }
 }
