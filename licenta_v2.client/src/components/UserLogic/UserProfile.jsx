@@ -4,9 +4,12 @@ import { auth } from '../../utils/firebase-config';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import './UserProfile.css'
+import EditUser from './EditUser';
+import { API_URL_USER } from '../../utils/api_url';
 
 const UserProfile = () => {
     const [userData, setUserData] = useState({});
+    const [openModal, setOpenModal] = useState(false);
     const [gender, setGender] = useState("");
     const navigate = useNavigate();
     const user = auth.currentUser;
@@ -19,15 +22,24 @@ const UserProfile = () => {
         });
     }
 
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
     useEffect(() => {
         const fetchUserData = async () => {
-            try {      
-                const response = await axios.get('https://localhost:7281/api/User/GetUser', {
-                    params: { id: user.uid } 
+            try {
+                const response = await axios.get(API_URL_USER, {
+                    params: { id: user.uid }, 
+                    headers: {
+                        Authorization: 'Bearer ' + user.accessToken,
+                    }
                 });            
-                setUserData(response.data);
-                if (userData.gender == 0) setGender("Male");
-                else setGender("Female");
+                setUserData(response.data);             
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -35,6 +47,14 @@ const UserProfile = () => {
 
         fetchUserData();
     }, [user]);
+
+    useEffect(() => {   
+        if (userData.gender === 0) {
+            setGender("Male");
+        } else if (userData.gender === 1) {
+            setGender("Female");
+        }
+    }, [userData.gender]);
 
     return (
         <div className='profile-container'>
@@ -50,12 +70,11 @@ const UserProfile = () => {
                     <button className='btn btn-danger mt-3' onClick={handleSignOut}>
                         Log Out
                         </button>
-                        <button className='btn btn-primary mt-3 edit' onClick={handleSignOut}>
+                        <button className='btn btn-primary mt-3 edit' onClick={handleOpenModal}>
                         Edit Profile
                         </button>
                     </div>
-                </div>
-               
+                </div>              
                 <div className='profile-details'>
                     <p><strong>Address:</strong> {userData.address}</p>
                     <p><strong>Age:</strong> {userData.age}</p>
@@ -65,7 +84,8 @@ const UserProfile = () => {
                     <p><strong>Gender:</strong> {gender}</p>
                     <p><strong>Body Fat Percentage:</strong> {userData.bodyFatPercentage}</p>                 
                 </div>            
-            </div>          
+            </div>
+            <EditUser open={openModal} userData={userData} handleClose={handleCloseModal} />
         </div>
     );
 };

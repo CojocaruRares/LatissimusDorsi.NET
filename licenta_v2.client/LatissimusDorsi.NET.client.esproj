@@ -10,6 +10,5 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\components\UserLogic\" />
-    <Folder Include="src\utils\" />
   </ItemGroup>
 </Project>

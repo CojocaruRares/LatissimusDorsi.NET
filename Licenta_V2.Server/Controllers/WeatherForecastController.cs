@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Licenta_V2.Server.Controllers
+namespace LatissimusDorsi.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]

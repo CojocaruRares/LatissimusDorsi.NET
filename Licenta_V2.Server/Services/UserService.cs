@@ -1,10 +1,10 @@
-﻿using Licenta_V2.Server.Data;
-using Licenta_V2.Server.Models;
+﻿using LatissimusDorsi.Server.Data;
+using LatissimusDorsi.Server.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace Licenta_V2.Server.Services
+namespace LatissimusDorsi.Server.Services
 {
     public class UserService
     {

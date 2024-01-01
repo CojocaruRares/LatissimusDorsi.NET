@@ -1,4 +1,4 @@
-namespace Licenta_V2.Server
+namespace LatissimusDorsi.Server
 {
     public class WeatherForecast
     {

@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
-namespace Licenta_V2.Server.Models
+namespace LatissimusDorsi.Server.Models
 {
     [BsonIgnoreExtraElements]
     public class Workout

@@ -2,7 +2,7 @@
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 
-namespace Licenta_V2.Server.Services
+namespace LatissimusDorsi.Server.Services
 {
     public class FirebaseAuthService
     {
@@ -36,14 +36,14 @@ namespace Licenta_V2.Server.Services
             return user.Uid;
         }
 
-      
-        public async Task<string> GetRoleForUser(string userId)
+    
+        public async Task<string> GetRoleForUser(string token)
         {
-            UserRecord user = await FirebaseAuth.DefaultInstance.GetUserAsync(userId);
-
-            if (user.CustomClaims != null && user.CustomClaims.ContainsKey("role"))
+            var decoded = await _auth.VerifyIdTokenAsync(token);
+            object role;
+            if (decoded.Claims.TryGetValue("role", out role))
             {
-                return user.CustomClaims["role"].ToString();
+                return (string)role;
             }
             else
             {

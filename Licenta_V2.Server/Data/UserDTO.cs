@@ -1,9 +1,8 @@
 ﻿
-
-namespace Licenta_V2.Server.Data
+namespace LatissimusDorsi.Server.Data
 {
-    public class AuthDTO
-    {
+    public class UserDTO
+    { 
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string name { get; set; } = string.Empty;

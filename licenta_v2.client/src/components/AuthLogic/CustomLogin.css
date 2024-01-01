@@ -34,3 +34,7 @@
 .form-control{
     width:100%;
 }
+
+textarea {
+    max-height: 300px;
+}

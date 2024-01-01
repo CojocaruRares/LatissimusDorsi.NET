@@ -1,11 +1,11 @@
-﻿using Licenta_V2.Server.Data;
-using Licenta_V2.Server.Models;
+﻿using LatissimusDorsi.Server.Data;
+using LatissimusDorsi.Server.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 
-namespace Licenta_V2.Server.Services
+namespace LatissimusDorsi.Server.Services
 {
     public class TrainerService
     {
@@ -16,6 +16,34 @@ namespace Licenta_V2.Server.Services
             MongoClient client = new MongoClient(dbSettings.Value.Connection);
             IMongoDatabase database = client.GetDatabase(dbSettings.Value.DatabaseName);
             _trainerCollection = database.GetCollection<Trainer>(dbSettings.Value.CollectionTrainers);
+        }
+
+        public async Task CreateAsync(Trainer trainer)
+        {
+            await _trainerCollection.InsertOneAsync(trainer);
+            return;
+        }
+
+        public async Task<List<Trainer>> GetAsync()
+        {
+            return await _trainerCollection.Find(new BsonDocument()).ToListAsync();
+        }
+
+        public async Task<Trainer> GetAsync(string id)
+        {
+            return await _trainerCollection.Find(trainer => trainer.id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task UpdateAsync(string id, Trainer trainer)
+        {
+            await _trainerCollection.ReplaceOneAsync(user => trainer.id == id, trainer);
+            return;
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            await _trainerCollection.DeleteOneAsync(trainer => trainer.id == id);
+            return;
         }
 
     }

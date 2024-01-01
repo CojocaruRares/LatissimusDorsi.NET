@@ -1,4 +1,4 @@
-﻿namespace Licenta_V2.Server.Data
+﻿namespace LatissimusDorsi.Server.Data
 {
     public class DatabaseSettings
     {

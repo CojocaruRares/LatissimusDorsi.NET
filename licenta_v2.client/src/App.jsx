@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import CreateAccount from './components/AuthLogic/CreateAccount';
 import UserAccount from './components/AuthLogic/UserAccount';
+import TrainerAccount from './components/AuthLogic/TrainerAccount';
 import LoginForm from './components/AuthLogic/Login';
 import Home from './Home';
 import UserProfile from './components/UserLogic/UserProfile';
@@ -32,7 +33,8 @@ function App() {
                 <Route path="/Home" element={<Home />} />
                 <Route path="UserProfile" element={<UserProfile/> }/>
                 <Route path="/CreateAccount" element={<CreateAccount/>}/>
-                <Route path="/UserAccount" element={<UserAccount/>}/>
+                <Route path="/UserAccount" element={<UserAccount />} />
+                <Route path="/TrainerAccount" element={<TrainerAccount />} />
             </Routes>
         </Router>
     );

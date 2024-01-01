@@ -2,11 +2,12 @@ import { useState } from "react"
 import './CustomLogin.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { API_URL_USER } from "../../utils/api_url";
 
 const UserAccountForm = () => {
     const navigate = useNavigate();
     const [image, setImage] = useState(null);
+    const [next, setNext] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -20,8 +21,7 @@ const UserAccountForm = () => {
         bodyFatPercentage: 0
     });
 
-    const [next, setNext] = useState(false);
-
+    
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -49,7 +49,7 @@ const UserAccountForm = () => {
                 sendForm.append(key, formData[key]);
             }
             sendForm.append("profileImage", image);
-            const response = await axios.post('https://localhost:7281/api/User/PostUser', sendForm);
+            const response = await axios.post(API_URL_USER, sendForm);
             console.log('server:', response.data);
             navigate('/')
 

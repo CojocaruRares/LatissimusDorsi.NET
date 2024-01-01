@@ -1,4 +1,4 @@
-﻿namespace Licenta_V2.Server.Models
+﻿namespace LatissimusDorsi.Server.Models
 {
     public class Exercise
     {

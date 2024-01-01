@@ -1,5 +1,5 @@
-using Licenta_V2.Server.Data;
-using Licenta_V2.Server.Services;
+using LatissimusDorsi.Server.Data;
+using LatissimusDorsi.Server.Services;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseStrings"));
 builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<TrainerService>();
 builder.Services.AddSingleton<FirebaseAuthService>();
 
 builder.Services.AddControllers();

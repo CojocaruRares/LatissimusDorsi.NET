@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
-namespace Licenta_V2.Server.Models
+namespace LatissimusDorsi.Server.Models
 {
     [BsonIgnoreExtraElements]
     public class Trainer
@@ -16,7 +16,22 @@ namespace Licenta_V2.Server.Models
         [BsonElement("Address")]
         public string address { get; set; } = String.Empty;
 
+        [BsonElement("Age")]
+        public int age { get; set; }     
+
         [BsonElement("Description")]
-        public string description { get; set; } = String.Empty;
+        public string description { get; set; } = String.Empty;     
+
+        [BsonElement("Motto")]
+        public string motto { get; set; } = String.Empty;
+
+        [BsonElement("Gym")]
+        public string gym { get; set; } = String.Empty;
+
+        [BsonElement("Specialization")]
+        public string specialization { get; set; } = String.Empty;
+
+        [BsonElement("ProfileImage")]
+        public string profileImage { get; set; } = String.Empty;
     }
 }

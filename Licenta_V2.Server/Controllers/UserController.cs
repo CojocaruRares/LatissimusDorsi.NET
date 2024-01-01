@@ -1,11 +1,12 @@
-﻿using Licenta_V2.Server.Data;
-using Licenta_V2.Server.Models;
-using Licenta_V2.Server.Services;
+﻿using LatissimusDorsi.Server.Data;
+using LatissimusDorsi.Server.Models;
+using LatissimusDorsi.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Text.RegularExpressions;
 
-namespace Licenta_V2.Server.Controllers
+namespace LatissimusDorsi.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -24,21 +25,27 @@ namespace Licenta_V2.Server.Controllers
         }
 
         [HttpGet]
-        [Route("GetUser")]
-        public async Task<User> Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
-            return await _userService.GetAsync(id);
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "user")
+            {
+                return Unauthorized();
+            }
+            var user = await _userService.GetAsync(id);
+            return Ok(user);
         }
 
 
         [HttpPost]
-        [Route("PostUser")]
-        public async Task<IActionResult> Post([FromForm] AuthDTO authdto)
+        public async Task<IActionResult> Post([FromForm] UserDTO authdto)
         {
+            Regex emailRegex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
             string name = "";
             if (authdto.profileImage != null)
-                 name = await SaveImage(authdto.profileImage);
-            
+                name = await SaveImage(authdto.profileImage);
+
             User user = new User
             {
                 name = authdto.name,
@@ -51,6 +58,10 @@ namespace Licenta_V2.Server.Controllers
                 BodyFatPercentage = authdto.BodyFatPercentage,
                 profileImage = name
             };
+            if (emailRegex.IsMatch(authdto.Email)==false || UserValidator(user)==false)
+            {
+                return BadRequest();
+            }
             await _userService.CreateAsync(user);
             await _firebaseAuthService.CreateUserWithClaim(authdto.Email, authdto.Password, user.id, "user");
             return CreatedAtAction(nameof(Get), new { id = user.id }, user);
@@ -60,6 +71,17 @@ namespace Licenta_V2.Server.Controllers
         public async Task<IActionResult> Put(string id, [FromBody] User user)
         {
             var existingUser = await _userService.GetAsync(id);
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            string role = await _firebaseAuthService.GetRoleForUser(token);          
+            if (role != "user")
+            {
+                return Unauthorized();
+            }
+            if(UserValidator(user)==false)
+            {
+                return BadRequest();
+            }
+
             if (existingUser == null)
             {
                 return NotFound($"User with id = {id} not found");
@@ -88,6 +110,43 @@ namespace Licenta_V2.Server.Controllers
                 await file.CopyToAsync(fileStream);
             }
             return imageName;
+        }
+
+        [NonAction]
+        public bool UserValidator(User user)
+        {
+            Regex nameRegex = new Regex("^[a-zA-Z]+$");
+            
+            if( !nameRegex.IsMatch(user.name) )
+            {
+                return false;
+            }         
+            if(user.age < 3 || user.age > 130)
+            {
+                return false;
+            }
+            if(user.height < 50 || user.height > 250)
+            {
+                return false;
+            }
+            if(user.weight < 20 || user.weight > 300)
+            {
+                return false;
+            }
+            if(user.Gender != 0 && user.Gender != 1)
+            {
+                return false;
+            }
+            if (user.Objective != "Bodybuilding" && user.Objective != "Powerlifting" && user.Objective != "Weightloss")
+            {
+                return false;
+            }
+            if(user.BodyFatPercentage < 3 || user.BodyFatPercentage > 90)
+            {
+                return false;
+            }
+            return true;
+
         }
 
     }
