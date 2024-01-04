@@ -78,7 +78,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
            
             if (existingTrainer == null)
             {
-                return NotFound($"User with id = {id} not found");
+                return NotFound($"Trainer with id = {id} not found");
             }
             await _trainerService.UpdateAsync(id, trainer);
             return NoContent();

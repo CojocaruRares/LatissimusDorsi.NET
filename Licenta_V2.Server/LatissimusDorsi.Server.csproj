@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\licenta_v2.client\LatissimusDorsi.NET.client.esproj">
+    <ProjectReference Include="..\licenta_v2.client\LatissimusDorsi.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

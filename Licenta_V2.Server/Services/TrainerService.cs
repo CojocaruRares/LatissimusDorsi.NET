@@ -36,7 +36,7 @@ namespace LatissimusDorsi.Server.Services
 
         public async Task UpdateAsync(string id, Trainer trainer)
         {
-            await _trainerCollection.ReplaceOneAsync(user => trainer.id == id, trainer);
+            await _trainerCollection.ReplaceOneAsync(trainer => trainer.id == id, trainer);
             return;
         }
 

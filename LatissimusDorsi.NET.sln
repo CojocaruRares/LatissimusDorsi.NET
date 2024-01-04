@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LatissimusDorsi.NET.Server", "Licenta_V2.Server\LatissimusDorsi.NET.Server.csproj", "{D8424F26-4E1A-4385-8BE7-D6B4C2759D86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LatissimusDorsi.Server", "Licenta_V2.Server\LatissimusDorsi.Server.csproj", "{D8424F26-4E1A-4385-8BE7-D6B4C2759D86}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "LatissimusDorsi.NET.client", "licenta_v2.client\LatissimusDorsi.NET.client.esproj", "{26DA32D1-811E-49B4-8FDA-9FD4833C93DE}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "LatissimusDorsi.client", "licenta_v2.client\LatissimusDorsi.client.esproj", "{26DA32D1-811E-49B4-8FDA-9FD4833C93DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

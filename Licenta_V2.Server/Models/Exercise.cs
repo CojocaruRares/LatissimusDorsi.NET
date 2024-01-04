@@ -3,10 +3,9 @@
     public class Exercise
     {
         public string name = String.Empty;
-        public int? warm_up_sets;
-        public int? working_sets;
-        public string? reps = String.Empty;
+        public int? sets;
+        public int? reps;
         public int? rpe;
-        public int? rest;
+        public string? description = String.Empty;
     }
 }
