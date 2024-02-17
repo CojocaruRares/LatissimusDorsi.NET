@@ -150,7 +150,7 @@ const EditUser = ({ open, handleClose, userData }) => {
                 <Button variant="contained" color="primary" onClick={handleSubmit}>
                     Submit
                 </Button>
-                <Button variant="contained" color="secondary" onClick={handleClose}>
+                <Button variant="contained" color="error" onClick={handleClose}>
                     Close
                 </Button>
             </DialogActions>

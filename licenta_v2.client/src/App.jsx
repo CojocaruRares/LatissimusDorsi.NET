@@ -42,8 +42,6 @@ function App() {
     function Navbar(props) {
         const isLoggedIn = props.isLoggedIn;
         const role = props.role;
-        console.log(role);
-        console.log(role);
         if (isLoggedIn && role === "user") {
             return <UserNavbar />;
         }

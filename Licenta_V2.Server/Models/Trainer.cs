@@ -33,5 +33,8 @@ namespace LatissimusDorsi.Server.Models
 
         [BsonElement("ProfileImage")]
         public string profileImage { get; set; } = String.Empty;
+
+
+        public List<Workout> Workouts { get; set; } = new List<Workout>();
     }
 }

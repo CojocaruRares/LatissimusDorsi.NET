@@ -91,6 +91,26 @@ namespace LatissimusDorsi.NET.Server.Controllers
             return NoContent();
         }
 
+        [HttpPost("Workout")]
+        public async Task<IActionResult> PostWorkout(string id, [FromBody] Workout workout)
+        {
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "trainer")
+            {
+                return Unauthorized();
+            }
+       
+            var existingTrainer = await _trainerService.GetAsync(id);
+            if (existingTrainer == null)
+            {
+                return NotFound($"Trainer with id = {id} not found");
+            }
+       
+            await _trainerService.AddWorkoutAsync(id, workout); 
+            return Ok("Workout added successfully.");
+        }
+
 
         [NonAction]
         public async Task<string> SaveImage(IFormFile file)

@@ -2,10 +2,10 @@
 {
     public class Exercise
     {
-        public string name = String.Empty;
-        public int? sets;
-        public int? reps;
-        public int? rpe;
-        public string? description = String.Empty;
+        public string name { get; set; } = string.Empty;
+        public int? sets { get; set; }
+        public int? reps { get; set; }
+        public int? rpe { get; set; }
+        public string? description { get; set; } = string.Empty;
     }
 }

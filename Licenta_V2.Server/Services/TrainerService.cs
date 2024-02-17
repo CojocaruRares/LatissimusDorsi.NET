@@ -46,5 +46,13 @@ namespace LatissimusDorsi.Server.Services
             return;
         }
 
+        public async Task AddWorkoutAsync(string trainerId, Workout workout)
+        {
+            var filter = Builders<Trainer>.Filter.Eq(t => t.id, trainerId);
+            var update = Builders<Trainer>.Update.Push(t => t.Workouts, workout);
+
+            await _trainerCollection.UpdateOneAsync(filter, update);
+        }
+
     }
 }
