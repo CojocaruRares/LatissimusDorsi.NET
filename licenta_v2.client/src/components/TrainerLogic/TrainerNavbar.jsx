@@ -10,7 +10,7 @@ const UserNavbar = () => {
             <ul className="menu">
                 <li><Link className="menu-link" to="/Home">Home</Link></li>
                 <li><Link className="menu-link" to="/TrainerProfile">Profile</Link></li>
-                <li><Link className="menu-link" to="/CreateWorkout">Workout Plan</Link></li>
+                <li><Link className="menu-link" to="/WorkoutList">Workout Plan</Link></li>
             </ul>
         </nav>
     );

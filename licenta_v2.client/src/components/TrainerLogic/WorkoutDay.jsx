@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './Workout.css'
+import './Workout.css';
 import PropTypes from 'prop-types';
 const WorkoutDay = ({currentDay, setData}) => {
     const [exercises, setExercises] = useState([]);

@@ -13,12 +13,15 @@ namespace LatissimusDorsi.Server.Controllers
     public class UserController : Controller
     {
         private readonly UserService _userService;
+        private readonly WorkoutService _workoutService;
         private readonly FirebaseAuthService _firebaseAuthService;
         private readonly IWebHostEnvironment _environment;
 
 
-        public UserController(UserService userService, FirebaseAuthService firebaseAuthService, IWebHostEnvironment env)
+        public UserController(UserService userService, FirebaseAuthService firebaseAuthService, WorkoutService workoutService,
+            IWebHostEnvironment env)
         {
+            this._workoutService = workoutService;
             this._userService = userService;
             this._firebaseAuthService = firebaseAuthService;
             this._environment = env;
@@ -58,7 +61,7 @@ namespace LatissimusDorsi.Server.Controllers
                 BodyFatPercentage = authdto.BodyFatPercentage,
                 profileImage = name
             };
-            if (emailRegex.IsMatch(authdto.Email)==false || UserValidator(user)==false)
+            if (emailRegex.IsMatch(authdto.Email) == false || UserValidator(user) == false)
             {
                 return BadRequest();
             }
@@ -72,12 +75,12 @@ namespace LatissimusDorsi.Server.Controllers
         {
             var existingUser = await _userService.GetAsync(id);
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
-            string role = await _firebaseAuthService.GetRoleForUser(token);          
+            string role = await _firebaseAuthService.GetRoleForUser(token);
             if (role != "user")
             {
                 return Unauthorized();
             }
-            if(UserValidator(user)==false)
+            if (UserValidator(user) == false)
             {
                 return BadRequest();
             }
@@ -95,6 +98,33 @@ namespace LatissimusDorsi.Server.Controllers
         {
             await _userService.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("Workout")]
+        public async Task<IActionResult> GetWorkout(string id)
+        {
+            var user = await _userService.GetAsync(id);
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "user")
+            {
+                return Unauthorized();
+            }
+            if (user == null)
+            {
+                return NotFound($"User with id = {id} not found");
+            }
+
+            var workout = await _workoutService.GetPerfectWorkoutAsync(user.Objective, user.weight, user.height, user.age, user.Gender);
+            if (workout != null)
+            {
+                return Ok(workout);
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
 
 
@@ -116,24 +146,24 @@ namespace LatissimusDorsi.Server.Controllers
         public bool UserValidator(User user)
         {
             Regex nameRegex = new Regex("^[a-zA-Z]+$");
-            
-            if( !nameRegex.IsMatch(user.name) )
-            {
-                return false;
-            }         
-            if(user.age < 3 || user.age > 130)
+
+            if (!nameRegex.IsMatch(user.name))
             {
                 return false;
             }
-            if(user.height < 50 || user.height > 250)
+            if (user.age < 3 || user.age > 130)
             {
                 return false;
             }
-            if(user.weight < 20 || user.weight > 300)
+            if (user.height < 50 || user.height > 250)
             {
                 return false;
             }
-            if(user.Gender != 0 && user.Gender != 1)
+            if (user.weight < 20 || user.weight > 300)
+            {
+                return false;
+            }
+            if (user.Gender != 0 && user.Gender != 1)
             {
                 return false;
             }
@@ -141,7 +171,7 @@ namespace LatissimusDorsi.Server.Controllers
             {
                 return false;
             }
-            if(user.BodyFatPercentage < 3 || user.BodyFatPercentage > 90)
+            if (user.BodyFatPercentage < 3 || user.BodyFatPercentage > 90)
             {
                 return false;
             }

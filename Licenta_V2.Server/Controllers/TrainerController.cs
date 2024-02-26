@@ -12,12 +12,15 @@ namespace LatissimusDorsi.NET.Server.Controllers
     public class TrainerController : Controller
     {
         private readonly TrainerService _trainerService;
+        private readonly WorkoutService _workoutService;
         private readonly FirebaseAuthService _firebaseAuthService;
         private readonly IWebHostEnvironment _environment;
 
 
-        public TrainerController(TrainerService trainerService, FirebaseAuthService firebaseAuthService, IWebHostEnvironment env)
+        public TrainerController(TrainerService trainerService,WorkoutService workoutService, FirebaseAuthService firebaseAuthService,
+            IWebHostEnvironment env)
         {
+            this._workoutService = workoutService;
             this._trainerService = trainerService;
             this._firebaseAuthService = firebaseAuthService;
             this._environment = env;
@@ -107,8 +110,23 @@ namespace LatissimusDorsi.NET.Server.Controllers
                 return NotFound($"Trainer with id = {id} not found");
             }
        
-            await _trainerService.AddWorkoutAsync(id, workout); 
+            await _workoutService.AddWorkoutAsync(id, workout); 
             return Ok("Workout added successfully.");
+        }
+
+        [HttpGet("Workout")]
+        public async Task<IActionResult> GetWorkouts(string id)
+        {
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "trainer")
+            {
+                return Unauthorized();
+            }
+
+            var workouts = await _workoutService.GetWorkoutAsync(id);
+
+            return Ok(workouts);
         }
 
 

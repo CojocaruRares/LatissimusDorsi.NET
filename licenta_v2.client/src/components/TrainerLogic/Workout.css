@@ -1,38 +1,74 @@
 
 td .form-control {
-    height: 65px; 
+    height: 65px;
     resize: none;
 }
 
-.work-title{
+.work-title {
     display: flex;
     justify-content: center;
-    margin-bottom:50px;
-    margin-top:20px;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    position: relative;
 }
 
-.work-title input.form-control{
-    width:400px;
-    height: 50px;
+    .work-title input.form-control {
+        width: 400px;
+        height: 50px;
+    }
 
-}
-
-.d-flex label{
-    align-self:center;
+.d-flex label {
+    align-self: center;
     font-size: 2rem;
 }
 
-.btn-add-work{
-    align-self:flex-start;
+.btn-add-work {
+    align-self: flex-start;
 }
 
-.btn-save{
-    padding:50px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+.btn-save {
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.workout-group {
+    width: 60vw;
+    display: table;
+    margin: 0 auto;
+}
+
+.workout {
+    margin-top: 80px;
+    margin-bottom: 80px;
 }
 
 
+.back-button {
+    position: absolute;
+    left: 50px;
+    top: 0px;
+}
 
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+    .table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+
+table td:first-child, table th:first-child{
+    width:350px;
+}
+
+table td:nth-child(5), table th:nth-child(5) {
+    width: 550px;
+}
 

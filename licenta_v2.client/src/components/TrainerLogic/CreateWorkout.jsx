@@ -1,11 +1,13 @@
 import WorkoutDay from "./WorkoutDay";
 import { useState, useEffect } from 'react';
-import './Workout.css'
+import './Workout.css';
 import axios from 'axios';
 import { API_URL_TRAINER } from '../../utils/api_url';
 import { auth } from '../../utils/firebase-config';
+import { useNavigate } from 'react-router-dom';
 
 const CreateWorkout = () => {
+    const navigate = useNavigate();
     const [workoutTitle, setWorkoutTitle] = useState("");
     const [workoutData, setWorkoutData] = useState({
         Monday: { name: '', sets: null, reps: null, rpe: null, description: '' },
@@ -62,7 +64,7 @@ const CreateWorkout = () => {
 
             if (intensity_value >= 100 && intensity_value <= 250)
                 calculated_intensity = 'moderate';
-            else if (intensity_value > 200)
+            else if (intensity_value > 250)
                 calculated_intensity = 'high';
 
 
@@ -84,7 +86,7 @@ const CreateWorkout = () => {
         } catch (error) {
             console.error("Error saving workout:", error);
         }
-        
+        navigate('/WorkoutList');
     };
    
     return (

@@ -4,11 +4,13 @@ import CreateAccount from './components/AuthLogic/CreateAccount';
 import UserAccount from './components/AuthLogic/UserAccount';
 import TrainerAccount from './components/AuthLogic/TrainerAccount';
 import TrainerProfile from './components/TrainerLogic/TrainerProfile';
+import WorkoutList from './components/TrainerLogic/WorkoutList';
 import CreateWorkout from './components/TrainerLogic/CreateWorkout';
 import LoginForm from './components/AuthLogic/Login';
 import Home from './Home';
 import UserProfile from './components/UserLogic/UserProfile';
 import UserNavbar from './components/UserLogic/UserNavbar';
+import WorkoutPlan from './components/UserLogic/WorkoutPlan';
 import TrainerNavbar from './components/TrainerLogic/TrainerNavbar';
 import { useState, useEffect } from 'react';
 import { auth } from './utils/firebase-config';
@@ -72,7 +74,9 @@ function App() {
                 <Route path="/UserAccount" element={<UserAccount />} />
                 <Route path="/TrainerAccount" element={<TrainerAccount />} />
                 <Route path="/TrainerProfile" element={<TrainerProfile />} />
-                <Route path="/CreateWorkout" element={<CreateWorkout/> } />
+                <Route path="/WorkoutList" element={<WorkoutList />} />
+                <Route path="/CreateWorkout" element={<CreateWorkout />} />
+                <Route path="/WorkoutPlan" element={<WorkoutPlan /> } />
             </Routes>
         </Router>
     );
