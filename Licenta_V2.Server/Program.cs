@@ -10,6 +10,7 @@ builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<TrainerService>();
 builder.Services.AddSingleton<FirebaseAuthService>();
 builder.Services.AddSingleton<WorkoutService>();
+builder.Services.AddSingleton<PdfService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

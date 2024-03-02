@@ -15,16 +15,18 @@ namespace LatissimusDorsi.Server.Controllers
         private readonly UserService _userService;
         private readonly WorkoutService _workoutService;
         private readonly FirebaseAuthService _firebaseAuthService;
+        private readonly PdfService _pdfService;
         private readonly IWebHostEnvironment _environment;
 
 
         public UserController(UserService userService, FirebaseAuthService firebaseAuthService, WorkoutService workoutService,
-            IWebHostEnvironment env)
+            IWebHostEnvironment env, PdfService pdfService)
         {
             this._workoutService = workoutService;
             this._userService = userService;
             this._firebaseAuthService = firebaseAuthService;
             this._environment = env;
+            this._pdfService = pdfService;
         }
 
         [HttpGet]
@@ -127,7 +129,21 @@ namespace LatissimusDorsi.Server.Controllers
 
         }
 
+        [HttpPost("Workout")]
+        public async Task<IActionResult> EmailWorkout(string email, [FromBody] Workout workout)
+        {
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "user")
+            {
+                return Unauthorized();
+            }
+          
+            string path = Path.Combine(_environment.ContentRootPath,"Workout.pdf");
+            this._pdfService.GenerateWorkoutPDF(workout,path);
 
+            return Ok();
+        }
 
         [NonAction]
         public async Task<string> SaveImage(IFormFile file)

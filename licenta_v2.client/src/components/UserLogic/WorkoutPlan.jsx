@@ -27,6 +27,21 @@ const WorkoutPlan = () => {
         fetchWorkout();
     }, [user]);
 
+    const sendWorkout = async () => {
+        try {
+            const response = await axios.post(`${API_URL_USER}/Workout`, workout, {
+                params: { email: user.email },
+                headers: {
+                    Authorization: 'Bearer ' + user.accessToken,
+                }
+            });
+            console.log(response);
+        }
+        catch (error) {
+            console.log("Exception: ", error);
+        }
+    }
+
 
     return (
         <div className="container mt-4">
@@ -64,6 +79,7 @@ const WorkoutPlan = () => {
                             )}
                         </div>
                     ))}
+                    <button className="btn btn-lg btn-primary position-fixed bottom-0 end-0 m-4" onClick={sendWorkout}>Send workout to email</button>
                 </div>
             ) : (
                 <p>Loading...</p>
