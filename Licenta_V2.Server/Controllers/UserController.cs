@@ -16,17 +16,19 @@ namespace LatissimusDorsi.Server.Controllers
         private readonly WorkoutService _workoutService;
         private readonly FirebaseAuthService _firebaseAuthService;
         private readonly PdfService _pdfService;
+        private readonly EmailService _emailService;
         private readonly IWebHostEnvironment _environment;
 
 
         public UserController(UserService userService, FirebaseAuthService firebaseAuthService, WorkoutService workoutService,
-            IWebHostEnvironment env, PdfService pdfService)
+            IWebHostEnvironment env, PdfService pdfService, EmailService emailService)
         {
             this._workoutService = workoutService;
             this._userService = userService;
             this._firebaseAuthService = firebaseAuthService;
             this._environment = env;
             this._pdfService = pdfService;
+            this._emailService = emailService;
         }
 
         [HttpGet]
@@ -141,6 +143,7 @@ namespace LatissimusDorsi.Server.Controllers
           
             string path = Path.Combine(_environment.ContentRootPath,"Workout.pdf");
             this._pdfService.GenerateWorkoutPDF(workout,path);
+            this._emailService.SendPdf(email,path);
 
             return Ok();
         }

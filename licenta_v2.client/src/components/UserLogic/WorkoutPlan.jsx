@@ -42,7 +42,6 @@ const WorkoutPlan = () => {
         }
     }
 
-
     return (
         <div className="container mt-4">
             {workout && Object.keys(workout).length > 0 ? (
