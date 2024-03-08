@@ -1,0 +1,58 @@
+
+
+.hero-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../public/img/home/home.jpg");
+    height: 51vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.hero-text {
+    text-align: center;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color:white;
+}
+
+.athlete-comments-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    padding: 100px;
+    padding-top: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    justify-items: center;
+}
+
+
+.athlete-comment {
+    display: flex;
+    margin-top: 15px;
+}
+
+.user-image {
+    width: 200px;
+    height: 150px;
+    border-radius: 10%;
+    margin-right: 15px;
+}
+
+.comment-text {
+    font-style: italic;
+    margin: 0;
+    font-size:1.1rem;
+}
+
+.user-type{
+    font-size: 0.9rem;
+}
+
+.title{
+    text-align:center;
+    margin-top:50px;
+}

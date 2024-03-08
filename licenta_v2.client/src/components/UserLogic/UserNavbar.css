@@ -1,12 +1,19 @@
 
 nav {
-    background-color: #26272e;
+    background-color: #010A13;
     border: 1px solid #222222;
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 50px;
+}
+
+.sticky {
+   position:fixed;
+   top:0;
+   z-index:1;
+   width:100%;   
 }
 
 .logo {
@@ -31,9 +38,9 @@ nav {
         font-size: 18px;
     }
 
-    .menu a:hover {
-        color: #A3C6C4;
-    }
+        .menu a:hover {
+            color: #1B3743;
+        }
 
     .menu button {
         background: none;
@@ -43,9 +50,9 @@ nav {
         cursor: pointer;
     }
 
-    .menu button:hover {
-        color: #A3C6C4;
-    }
+        .menu button:hover {
+            color: #1B3743;
+        }
 
 @media (max-width: 700px) {
     nav {

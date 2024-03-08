@@ -35,6 +35,7 @@ const WorkoutPlan = () => {
                     Authorization: 'Bearer ' + user.accessToken,
                 }
             });
+            alert('Workout has been sent !');
             console.log(response);
         }
         catch (error) {
