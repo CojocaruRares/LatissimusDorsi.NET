@@ -79,8 +79,7 @@ const CreateWorkout = () => {
                 headers: {
                     Authorization: 'Bearer ' + token,
                 }
-
-            
+ 
             });
             console.log("Workout saved successfully!");
         } catch (error) {

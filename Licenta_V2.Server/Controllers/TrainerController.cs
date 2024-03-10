@@ -14,15 +14,17 @@ namespace LatissimusDorsi.NET.Server.Controllers
         private readonly TrainerService _trainerService;
         private readonly WorkoutService _workoutService;
         private readonly FirebaseAuthService _firebaseAuthService;
+        private readonly TrainingSessionService _trainingSessionService;
         private readonly IWebHostEnvironment _environment;
 
 
         public TrainerController(TrainerService trainerService,WorkoutService workoutService, FirebaseAuthService firebaseAuthService,
-            IWebHostEnvironment env)
+           TrainingSessionService trainingSession, IWebHostEnvironment env)
         {
             this._workoutService = workoutService;
             this._trainerService = trainerService;
             this._firebaseAuthService = firebaseAuthService;
+            this._trainingSessionService = trainingSession;
             this._environment = env;
         }
 
@@ -127,6 +129,28 @@ namespace LatissimusDorsi.NET.Server.Controllers
             var workouts = await _workoutService.GetWorkoutAsync(id);
 
             return Ok(workouts);
+        }
+
+        [HttpPost("TrainingSession")]
+        public async Task<IActionResult> CreateSession(string id, [FromBody] TrainingSession session)
+        {
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "trainer")
+            {
+                return Unauthorized();
+            }
+
+            var existingTrainer = await _trainerService.GetAsync(id);
+            if (existingTrainer == null)
+            {
+                return NotFound($"Trainer with id = {id} not found");
+            }
+
+            session.trainerId = id;
+            await _trainingSessionService.CreateAsync(session);
+            return Ok("Session created successfully.");
+
         }
 
 

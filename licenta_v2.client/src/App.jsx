@@ -6,6 +6,7 @@ import TrainerAccount from './components/AuthLogic/TrainerAccount';
 import TrainerProfile from './components/TrainerLogic/TrainerProfile';
 import WorkoutList from './components/TrainerLogic/WorkoutList';
 import CreateWorkout from './components/TrainerLogic/CreateWorkout';
+import TrainingSession from './components/TrainerLogic/CreateTrainingSession';
 import LoginForm from './components/AuthLogic/Login';
 import Home from './Home';
 import UserProfile from './components/UserLogic/UserProfile';
@@ -76,7 +77,8 @@ function App() {
                 <Route path="/TrainerProfile" element={<TrainerProfile />} />
                 <Route path="/WorkoutList" element={<WorkoutList />} />
                 <Route path="/CreateWorkout" element={<CreateWorkout />} />
-                <Route path="/WorkoutPlan" element={<WorkoutPlan /> } />
+                <Route path="/WorkoutPlan" element={<WorkoutPlan />} />
+                <Route path="/CreateTrainingSession" element={<TrainingSession /> } />
             </Routes>
         </Router>
     );
