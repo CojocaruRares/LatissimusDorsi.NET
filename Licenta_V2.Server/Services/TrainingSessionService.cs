@@ -33,5 +33,13 @@ namespace LatissimusDorsi.Server.Services
             return await _sessionCollection.Find(session => session.id == id).FirstOrDefaultAsync();
         }
 
+        public async Task JoinSessionAsync(string sessionId, string userId)
+        {
+            var filter = Builders<TrainingSession>.Filter.Eq(session => session.id,sessionId);
+            var update = Builders<TrainingSession>.Update.AddToSet(session => session.users, userId);
+
+            await _sessionCollection.UpdateOneAsync(filter, update);
+        }
+
     }
 }

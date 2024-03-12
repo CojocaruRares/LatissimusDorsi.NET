@@ -16,7 +16,11 @@ namespace LatissimusDorsi.Server.Models
         [BsonElement("Users")]
         public List<string> users { get; set; } = new List<string>();
 
+        [BsonElement("Title")]
+        public string title { get; set; } = String.Empty;
+
         [BsonElement("Date")]
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime startDate { get; set; } = new DateTime();
 
         [BsonElement("City")]

@@ -17,11 +17,12 @@ namespace LatissimusDorsi.Server.Controllers
         private readonly FirebaseAuthService _firebaseAuthService;
         private readonly PdfService _pdfService;
         private readonly EmailService _emailService;
+        private readonly TrainingSessionService _trainingSessionService;
         private readonly IWebHostEnvironment _environment;
 
 
         public UserController(UserService userService, FirebaseAuthService firebaseAuthService, WorkoutService workoutService,
-            IWebHostEnvironment env, PdfService pdfService, EmailService emailService)
+            TrainingSessionService trainingSession, IWebHostEnvironment env, PdfService pdfService, EmailService emailService)
         {
             this._workoutService = workoutService;
             this._userService = userService;
@@ -29,6 +30,7 @@ namespace LatissimusDorsi.Server.Controllers
             this._environment = env;
             this._pdfService = pdfService;
             this._emailService = emailService;
+            this._trainingSessionService = trainingSession;
         }
 
         [HttpGet]
@@ -146,6 +148,35 @@ namespace LatissimusDorsi.Server.Controllers
             this._emailService.SendPdf(email,path);
 
             return Ok();
+        }
+
+        [HttpGet("TrainingSession")]
+        public async Task<IActionResult> GetTrainingSession()
+        {
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "user")
+            {
+                return Unauthorized();
+            }
+
+            var sessions = await _trainingSessionService.GetAsync();
+            return Ok(sessions);
+        }
+
+        [HttpPatch("TrainingSession")]
+        public async Task<IActionResult> JoinTrainingSession(string sessionId, string userId)
+        {
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "user")
+            {
+                return Unauthorized();
+            }
+
+            await _trainingSessionService.JoinSessionAsync(sessionId, userId);
+            return Ok();
+
         }
 
         [NonAction]

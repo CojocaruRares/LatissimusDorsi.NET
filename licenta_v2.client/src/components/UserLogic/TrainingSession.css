@@ -1,0 +1,44 @@
+.dialogContainer {
+    padding: 20px;
+    color:#ccc;
+}
+
+.dialogTitle {
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.trainerHeader {
+    display: flex;
+    flex-direction:column;
+    margin-bottom: 20px;
+}
+
+.trainerName {
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.description{
+    word-wrap:break-word;
+    width:500px;
+}
+
+.trainerInfo p {
+    margin-bottom: 10px;
+}
+
+.descriptionParagraph {
+    margin-bottom: 10px;
+}
+
+
+.trainerImage {
+    max-width: 200px;
+    margin-right: 20px;
+    border-radius:5px;
+}
+
+.closeButton {
+    margin-top: 20px;
+}

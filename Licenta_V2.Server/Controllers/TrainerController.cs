@@ -32,12 +32,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(string id)
         {
-            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
-            string role = await _firebaseAuthService.GetRoleForUser(token);
-            if (role != "trainer")
-            {
-                return Unauthorized();
-            }
+           
             var user = await _trainerService.GetAsync(id);
             return Ok(user);
         }

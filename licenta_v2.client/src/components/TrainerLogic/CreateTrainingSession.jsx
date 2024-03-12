@@ -7,6 +7,7 @@ const CreateTrainingSession = () => {
     const [trainingSession, setTrainingSession] = useState({
         trainerId: '',
         users: [],
+        title: '',
         startDate: '',
         city: '',
         gym: '',
@@ -55,8 +56,12 @@ const CreateTrainingSession = () => {
                     <h2 className="text-center mb-4">Create Training Session</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
-                            <label htmlFor="startDate" className="form-label">Start Date</label>
-                            <input type="date" className="form-control" id="startDate" name="startDate" value={trainingSession.startDate} onChange={handleChange} />
+                            <label htmlFor="title" className="form-label">Title:</label>
+                            <input type="text" className="form-control" id="title" name="title" value={trainingSession.title} onChange={handleChange} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="startDate" className="form-label">Start Date and Time</label>
+                            <input type="datetime-local" className="form-control" id="startDate" name="startDate" value={trainingSession.startDate} onChange={handleChange} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="city" className="form-label">City</label>

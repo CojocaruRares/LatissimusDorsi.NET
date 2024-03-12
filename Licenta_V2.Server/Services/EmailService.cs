@@ -5,13 +5,13 @@ namespace LatissimusDorsi.Server.Services
 {
     public class EmailService
     {
-        private string _email="rares.cojocaru@student.tuiasi.ro";
-        private string _password = "rhcy plsz urgv bcht";
+        private string _email= "LatissimusDorsi.NET@outlook.com";
+        private string _password = "lvwezoelkrqgbxgz";
 
         public void SendPdf(string receiver, string filePath)
         {
             MailMessage mail = new MailMessage(_email, receiver);
-            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+            SmtpClient smtpClient = new SmtpClient("smtp.outlook.com");
 
             mail.Subject = "Workout Program";
             mail.Body = "Your workout program has arrived !";
