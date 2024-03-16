@@ -57,13 +57,13 @@ const TrainingSessionsList = () => {
 
     const joinTrainingSession = async (id) => {
         try {
-                await axios.patch(`${API_URL_USER}/TrainingSession`,null, {
+                const response = await axios.patch(`${API_URL_USER}/TrainingSession`,null, {
                 params: { sessionId: id, userId: user.uid },
                 headers: {
                     Authorization: 'Bearer ' + user.accessToken,
                 }
             });
-            console.log("user joined session");
+            console.log(response);
         } catch (error) {
             console.log("Error joining session: ", error);
         }

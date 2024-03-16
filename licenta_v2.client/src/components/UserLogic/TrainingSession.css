@@ -42,3 +42,11 @@
 .closeButton {
     margin-top: 20px;
 }
+
+.sessions-title {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    position: relative;
+}

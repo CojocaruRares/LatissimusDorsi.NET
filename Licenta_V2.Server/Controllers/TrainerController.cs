@@ -148,6 +148,21 @@ namespace LatissimusDorsi.NET.Server.Controllers
 
         }
 
+        [HttpGet("TrainingSession")]
+        public async Task<IActionResult> GetTrainingSessions(string id)
+        {
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "trainer")
+            {
+                return Unauthorized();
+            }
+
+            var sessions = await _trainingSessionService.GetByTrainer(id);
+            return Ok(sessions);
+
+        }
+
 
         [NonAction]
         public async Task<string> SaveImage(IFormFile file)

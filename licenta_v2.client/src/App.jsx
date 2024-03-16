@@ -17,6 +17,7 @@ import TrainerNavbar from './components/TrainerLogic/TrainerNavbar';
 import { useState, useEffect } from 'react';
 import { auth } from './utils/firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
+import TrainingSessionList from './components/TrainerLogic/TrainingSessionList';
 
 function App() {
     const [isLogged, SetLog] = useState(false);
@@ -57,7 +58,7 @@ function App() {
     }
     Navbar.propTypes = {
         isLoggedIn: PropTypes.bool.isRequired,
-        role: PropTypes.oneOf(['user', 'trainer']).isRequired
+        role: PropTypes.string.isRequired
     };
     
 
@@ -80,6 +81,7 @@ function App() {
                 <Route path="/CreateWorkout" element={<CreateWorkout />} />
                 <Route path="/WorkoutPlan" element={<WorkoutPlan />} />
                 <Route path="/CreateTrainingSession" element={<CreateTrainingSession />} />
+                <Route path="/TrainingSessionList" element={<TrainingSessionList /> } />
                 <Route path="/TrainingSessions" element={<TrainingSessions /> } />
             </Routes>
         </Router>

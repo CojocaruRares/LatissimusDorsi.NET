@@ -160,7 +160,7 @@ namespace LatissimusDorsi.Server.Controllers
                 return Unauthorized();
             }
 
-            var sessions = await _trainingSessionService.GetAsync();
+            var sessions = await _trainingSessionService.GetAvailableAsync();
             return Ok(sessions);
         }
 
@@ -174,8 +174,10 @@ namespace LatissimusDorsi.Server.Controllers
                 return Unauthorized();
             }
 
-            await _trainingSessionService.JoinSessionAsync(sessionId, userId);
-            return Ok();
+            var isJoin = await _trainingSessionService.JoinSessionAsync(sessionId, userId);
+            if (isJoin == true)
+                return Ok("success: User joines session");
+            else return Ok("fail: There are no available slots");
 
         }
 

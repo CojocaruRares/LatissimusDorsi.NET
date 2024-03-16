@@ -2,7 +2,9 @@
 using LatissimusDorsi.Server.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace LatissimusDorsi.Server.Services
 {
@@ -33,12 +35,42 @@ namespace LatissimusDorsi.Server.Services
             return await _sessionCollection.Find(session => session.id == id).FirstOrDefaultAsync();
         }
 
-        public async Task JoinSessionAsync(string sessionId, string userId)
+        public async Task<List<TrainingSession>> GetAvailableAsync()
+        {
+            var list = await _sessionCollection.Find(new BsonDocument()).ToListAsync();
+            var filteredlist = new List<TrainingSession>();
+            foreach (var session in list)
+            {
+                if(session.users.Count < session.slots)
+                    filteredlist.Add(session);
+            }
+            return filteredlist;
+        }
+
+        public async Task<List<TrainingSession>> GetByTrainer(string trainerId)
+        {
+            var list = await _sessionCollection.Find(new BsonDocument()).ToListAsync();
+            var filteredList = new List<TrainingSession>();
+            foreach (var session in list)
+            {
+                if(session.trainerId == trainerId)
+                    filteredList.Add(session);
+            }
+            return filteredList;
+        }
+
+        public async Task<bool> JoinSessionAsync(string sessionId, string userId)
         {
             var filter = Builders<TrainingSession>.Filter.Eq(session => session.id,sessionId);
             var update = Builders<TrainingSession>.Update.AddToSet(session => session.users, userId);
 
-            await _sessionCollection.UpdateOneAsync(filter, update);
+            TrainingSession session = await _sessionCollection.Find(filter).FirstOrDefaultAsync();
+
+            if (session.users.Count < session.slots) {
+                await _sessionCollection.UpdateOneAsync(filter, update);
+                return true;
+            }
+            return false;
         }
 
     }

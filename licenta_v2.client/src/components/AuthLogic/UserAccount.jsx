@@ -70,7 +70,7 @@ const UserAccountForm = () => {
                         <label className="form-label">Password:</label>
                         <input type="password" className="form-control" name="password" value={formData.password} onChange={handleInputChange} minLength="8" />
                     </div>
-                    <button type="submit" className="btn btn-primary">Login</button>
+                    <button type="submit" className="btn btn-primary">Next</button>
                 </form>
                 :
                 <form onSubmit={handleSubmit} className="user-account-form " encType="multipart/form-data">

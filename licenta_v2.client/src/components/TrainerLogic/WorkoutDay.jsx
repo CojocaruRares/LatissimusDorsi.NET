@@ -36,14 +36,14 @@ const WorkoutDay = ({currentDay, setData}) => {
 
     return (
         <div>
-            <div className="d-flex align-items-center mb-3">
-                <h3 className="mr-3 title">{currentDay}</h3>              
-                {exercises.length === 0 && <h4>&nbsp;- Rest Day</h4>}
+            <div className="d-flex align-items-center mb-3 title-container">
+                <h3 className="mr-3 title-workout">{currentDay}</h3>              
+                {exercises.length === 0 && <h4 className="header-workout">&nbsp;- Rest Day</h4>}
                 <button className="btn btn-primary btn-add-work" onClick={addExercise}>
                     Add Exercise
                 </button>            
             </div>
-            <table className="table">
+            <table className="table table-workout">
                 <thead>
                     {exercises.length !== 0 &&
                         <tr>
@@ -105,13 +105,13 @@ const WorkoutDay = ({currentDay, setData}) => {
                                     className="form-control"                                   
                                 />
                             </td>
-                            <td>
+                            <td style={{ verticalAlign: 'middle' }} >                    
                                 <button
                                     className="btn btn-danger"
                                     onClick={() => deleteExercise(index)}
                                 >
                                     Delete
-                                </button>
+                                    </button>                         
                             </td>
                         </tr>
                     ))}

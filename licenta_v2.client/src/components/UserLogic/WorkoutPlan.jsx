@@ -79,7 +79,9 @@ const WorkoutPlan = () => {
                             )}
                         </div>
                     ))}
-                    <button className="btn btn-lg btn-primary position-fixed bottom-0 end-0 m-4" onClick={sendWorkout}>Send workout to email</button>
+                    <div className="d-flex justify-content-center">
+                        <button className="btn btn-lg btn-primary m-4 " onClick={sendWorkout}>Send workout to email</button>
+                    </div>
                 </div>
             ) : (
                 <p>Loading...</p>

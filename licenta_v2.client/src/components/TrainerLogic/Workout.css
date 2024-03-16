@@ -24,8 +24,11 @@ td .form-control {
 
 .btn-add-work {
     align-self: flex-start;
+    margin-bottom:10px;
 }
-
+.title-container{
+    margin:40px;
+}
 .btn-save {
     padding: 50px;
     display: flex;
@@ -51,9 +54,11 @@ td .form-control {
     top: 0px;
 }
 
-.table {
-    width: 100%;
-    border-collapse: collapse;
+.table-workout {
+    width: 90%;
+    margin-left:50px;
+    margin-right:50px;
+    border:1px solid #555;
 }
 
 .table th,
@@ -63,11 +68,11 @@ td .form-control {
     }
 
 
-table td:first-child, table th:first-child{
+.table td:first-child, tablet th:first-child{
     width:350px;
 }
 
-table td:nth-child(5), table th:nth-child(5) {
+.table td:nth-child(5), table th:nth-child(5) {
     width: 550px;
 }
 
