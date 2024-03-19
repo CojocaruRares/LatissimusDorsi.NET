@@ -37,10 +37,15 @@ namespace LatissimusDorsi.Server.Controllers
         public async Task<IActionResult> Get(string id)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
             string role = await _firebaseAuthService.GetRoleForUser(token);
             if (role != "user")
             {
-                return Unauthorized();
+                return Forbid();
             }
             var user = await _userService.GetAsync(id);
             return Ok(user);
@@ -81,10 +86,15 @@ namespace LatissimusDorsi.Server.Controllers
         {
             var existingUser = await _userService.GetAsync(id);
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
             string role = await _firebaseAuthService.GetRoleForUser(token);
             if (role != "user")
             {
-                return Unauthorized();
+                return Forbid();
             }
             if (UserValidator(user) == false)
             {
@@ -111,10 +121,15 @@ namespace LatissimusDorsi.Server.Controllers
         {
             var user = await _userService.GetAsync(id);
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
             string role = await _firebaseAuthService.GetRoleForUser(token);
             if (role != "user")
             {
-                return Unauthorized();
+                return Forbid();
             }
             if (user == null)
             {
@@ -137,10 +152,15 @@ namespace LatissimusDorsi.Server.Controllers
         public async Task<IActionResult> EmailWorkout(string email, [FromBody] Workout workout)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
             string role = await _firebaseAuthService.GetRoleForUser(token);
             if (role != "user")
             {
-                return Unauthorized();
+                return Forbid();
             }
           
             string path = Path.Combine(_environment.ContentRootPath,"Workout.pdf");
@@ -154,10 +174,15 @@ namespace LatissimusDorsi.Server.Controllers
         public async Task<IActionResult> GetTrainingSession()
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
             string role = await _firebaseAuthService.GetRoleForUser(token);
             if (role != "user")
             {
-                return Unauthorized();
+                return Forbid();
             }
 
             var sessions = await _trainingSessionService.GetAvailableAsync();
@@ -168,10 +193,15 @@ namespace LatissimusDorsi.Server.Controllers
         public async Task<IActionResult> JoinTrainingSession(string sessionId, string userId)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
             string role = await _firebaseAuthService.GetRoleForUser(token);
             if (role != "user")
             {
-                return Unauthorized();
+                return Forbid();
             }
 
             var isJoin = await _trainingSessionService.JoinSessionAsync(sessionId, userId);
@@ -179,6 +209,26 @@ namespace LatissimusDorsi.Server.Controllers
                 return Ok("success: User joines session");
             else return Ok("fail: There are no available slots");
 
+        }
+
+        [HttpGet("TrainingSessionUsers")]
+        public async Task<IActionResult> GetEnrolledUsers(string sessionId)
+        {      
+            var dataList = new List<SessionUsersDTO>();
+            var userList = await _trainingSessionService.GetUsersAsync(sessionId);
+            if(userList == null)
+                return NotFound();
+            foreach (var userId in userList)
+            {
+                string gender;
+                var user = await _userService.GetAsync(userId);
+                if (user.Gender == 0)
+                    gender = "male";
+                else gender = "female";
+                var userDTO = new SessionUsersDTO(user.profileImage, user.name, user.Objective, user.age, gender);
+                dataList.Add(userDTO); 
+            }
+            return Ok(dataList);
         }
 
         [NonAction]

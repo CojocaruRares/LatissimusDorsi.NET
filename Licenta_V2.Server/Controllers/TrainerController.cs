@@ -18,7 +18,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
         private readonly IWebHostEnvironment _environment;
 
 
-        public TrainerController(TrainerService trainerService,WorkoutService workoutService, FirebaseAuthService firebaseAuthService,
+        public TrainerController(TrainerService trainerService, WorkoutService workoutService, FirebaseAuthService firebaseAuthService,
            TrainingSessionService trainingSession, IWebHostEnvironment env)
         {
             this._workoutService = workoutService;
@@ -32,7 +32,6 @@ namespace LatissimusDorsi.NET.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(string id)
         {
-           
             var user = await _trainerService.GetAsync(id);
             return Ok(user);
         }
@@ -49,7 +48,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
             {
                 name = authdto.name,
                 address = authdto.address,
-                age = authdto.age,             
+                age = authdto.age,
                 description = authdto.description,
                 motto = authdto.motto,
                 gym = authdto.gym,
@@ -70,12 +69,17 @@ namespace LatissimusDorsi.NET.Server.Controllers
         {
             var existingTrainer = await _trainerService.GetAsync(id);
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
-            string role = await _firebaseAuthService.GetRoleForUser(token);
-            if (role != "trainer")
+            if (token == null)
             {
                 return Unauthorized();
             }
-           
+
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "trainer")
+            {
+                return Forbid();
+            }
+
             if (existingTrainer == null)
             {
                 return NotFound($"Trainer with id = {id} not found");
@@ -95,19 +99,24 @@ namespace LatissimusDorsi.NET.Server.Controllers
         public async Task<IActionResult> PostWorkout(string id, [FromBody] Workout workout)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
-            string role = await _firebaseAuthService.GetRoleForUser(token);
-            if (role != "trainer")
+            if (token == null)
             {
                 return Unauthorized();
             }
-       
+
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "trainer")
+            {
+                return Forbid();
+            }
+
             var existingTrainer = await _trainerService.GetAsync(id);
             if (existingTrainer == null)
             {
                 return NotFound($"Trainer with id = {id} not found");
             }
-       
-            await _workoutService.AddWorkoutAsync(id, workout); 
+
+            await _workoutService.AddWorkoutAsync(id, workout);
             return Ok("Workout added successfully.");
         }
 
@@ -115,10 +124,15 @@ namespace LatissimusDorsi.NET.Server.Controllers
         public async Task<IActionResult> GetWorkouts(string id)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if(token == null)
+            {
+                return Unauthorized();
+            }
+
             string role = await _firebaseAuthService.GetRoleForUser(token);
             if (role != "trainer")
             {
-                return Unauthorized();
+                return Forbid();
             }
 
             var workouts = await _workoutService.GetWorkoutAsync(id);
@@ -130,10 +144,15 @@ namespace LatissimusDorsi.NET.Server.Controllers
         public async Task<IActionResult> CreateSession(string id, [FromBody] TrainingSession session)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
             string role = await _firebaseAuthService.GetRoleForUser(token);
             if (role != "trainer")
             {
-                return Unauthorized();
+                return Forbid();
             }
 
             var existingTrainer = await _trainerService.GetAsync(id);
@@ -142,6 +161,11 @@ namespace LatissimusDorsi.NET.Server.Controllers
                 return NotFound($"Trainer with id = {id} not found");
             }
 
+            if(TrainingSessionValidator(session) == false)
+            {
+                return BadRequest();
+            }
+            
             session.trainerId = id;
             await _trainingSessionService.CreateAsync(session);
             return Ok("Session created successfully.");
@@ -152,6 +176,11 @@ namespace LatissimusDorsi.NET.Server.Controllers
         public async Task<IActionResult> GetTrainingSessions(string id)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
             string role = await _firebaseAuthService.GetRoleForUser(token);
             if (role != "trainer")
             {
@@ -175,6 +204,43 @@ namespace LatissimusDorsi.NET.Server.Controllers
                 await file.CopyToAsync(fileStream);
             }
             return imageName;
+        }
+
+        [NonAction]
+        public bool TrainingSessionValidator(TrainingSession session)
+        {
+            DateTime currentDate = DateTime.UtcNow;
+            if (session == null)
+            {
+                return false;
+            }
+
+            if (session.title.Length < 3)
+            {
+                return false;
+            }
+
+            if (session.slots <= 0)
+            {
+                return false;
+            }
+
+            if (session.city.Length < 3)
+            {
+                return false;
+            }
+
+            if (!Regex.IsMatch(session.city, "^[a-zA-Z]+$"))
+            {
+                return false;
+            }
+            
+            if(session.startDate < currentDate.Date.AddDays(1))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -4,7 +4,8 @@ import axios from 'axios';
 import { API_URL_TRAINER } from '../../utils/api_url';
 import { auth } from '../../utils/firebase-config';
 import { useNavigate } from 'react-router-dom';
-
+import SessionView from './SessionView';
+ 
 
 const TrainingSessionList = () => {
     const navigate = useNavigate();
@@ -54,8 +55,8 @@ const TrainingSessionList = () => {
                 <h2>My Training Sessions</h2>
             </div>
             {selectedSession ? (
-                //<SessionView session={selectedSession} />
-                <p>hello</p>
+                <SessionView session={selectedSession} />
+
             ) : (
                 <div>
                     {Object.keys(sessions).length > 0 ? (

@@ -50,3 +50,47 @@
     margin-top: 20px;
     position: relative;
 }
+
+.session-container {
+    background-color: #535C91;
+    padding: 60px;
+    padding-left: 120px;
+    padding-right: 120px;
+    border-radius: 25px;
+}
+
+.list-users {
+    text-align: center;
+    display:flex;
+    justify-content:center;
+}
+
+.user-session-list {
+    list-style: none;
+    padding: 0;
+    width: 60vw;
+    margin-top: 70px;
+}
+
+.user-session-image {
+    border-radius: 50%; 
+    width: 100px;
+    height: 100px;
+}
+
+
+.user-session-data {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 100px;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 20px;
+    background-color: #435585;
+}
+
+.p-user-data{
+    font-size:1.3rem;
+    font-style:bold;
+}

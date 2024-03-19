@@ -13,6 +13,7 @@ builder.Services.AddSingleton<WorkoutService>();
 builder.Services.AddSingleton<PdfService>();
 builder.Services.AddSingleton<EmailService>();
 builder.Services.AddSingleton<TrainingSessionService>();
+builder.Services.AddHostedService<TrainingSessionCleanupService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

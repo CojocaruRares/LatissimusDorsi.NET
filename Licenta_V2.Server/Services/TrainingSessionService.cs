@@ -35,13 +35,24 @@ namespace LatissimusDorsi.Server.Services
             return await _sessionCollection.Find(session => session.id == id).FirstOrDefaultAsync();
         }
 
+        //if the training sessions are too old ( at least a month ) delete them.
+        public async Task CleanupSessionsAsync()
+        {
+            DateTime cutoffDate = DateTime.UtcNow.AddMonths(-1);
+
+            var filter = Builders<TrainingSession>.Filter.Lt(session => session.startDate, cutoffDate);
+            await _sessionCollection.DeleteManyAsync(filter);
+        }
+
+
         public async Task<List<TrainingSession>> GetAvailableAsync()
         {
+            var currentDate = DateTime.UtcNow.AddHours(1);
             var list = await _sessionCollection.Find(new BsonDocument()).ToListAsync();
             var filteredlist = new List<TrainingSession>();
             foreach (var session in list)
             {
-                if(session.users.Count < session.slots)
+                if(session.users.Count < session.slots && DateTime.Compare(session.startDate,currentDate) > 0)
                     filteredlist.Add(session);
             }
             return filteredlist;
@@ -60,17 +71,25 @@ namespace LatissimusDorsi.Server.Services
         }
 
         public async Task<bool> JoinSessionAsync(string sessionId, string userId)
-        {
+        { 
+            var currentDate = DateTime.UtcNow.AddHours(1);
             var filter = Builders<TrainingSession>.Filter.Eq(session => session.id,sessionId);
             var update = Builders<TrainingSession>.Update.AddToSet(session => session.users, userId);
 
             TrainingSession session = await _sessionCollection.Find(filter).FirstOrDefaultAsync();
 
-            if (session.users.Count < session.slots) {
+            if (session.users.Count < session.slots && DateTime.Compare(session.startDate,currentDate) > 0) {
                 await _sessionCollection.UpdateOneAsync(filter, update);
                 return true;
             }
             return false;
+        }
+
+        public async Task<List<string>> GetUsersAsync(string sessionId)
+        {
+            var list = await _sessionCollection.Find(session => session.id == sessionId).FirstOrDefaultAsync();
+            return list.users;
+
         }
 
     }

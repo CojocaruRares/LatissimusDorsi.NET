@@ -43,10 +43,7 @@ const TrainingSessionsList = () => {
     const handleOpenDialog = async (trainerId) => {
         try {
             const response = await axios.get(API_URL_TRAINER, {
-                params: { id: trainerId },
-                headers: {
-                    Authorization: 'Bearer ' + user.accessToken,
-                }
+                params: { id: trainerId },              
             });
             setTrainer(response.data);
             setDialogOpen(true);
