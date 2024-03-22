@@ -46,10 +46,10 @@ WorkoutView.propTypes = {
             PropTypes.arrayOf(
                 PropTypes.shape({
                     name: PropTypes.string.isRequired,
-                    sets: PropTypes.number.isRequired,
-                    reps: PropTypes.number.isRequired,
-                    rpe: PropTypes.number.isRequired,
-                    description: PropTypes.string.isRequired
+                    sets: PropTypes.number,
+                    reps: PropTypes.number,
+                    rpe: PropTypes.number,
+                    description: PropTypes.string
                 })
             )
         ).isRequired

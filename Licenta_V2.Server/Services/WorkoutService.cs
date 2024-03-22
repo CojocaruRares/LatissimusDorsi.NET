@@ -1,6 +1,7 @@
 ﻿using LatissimusDorsi.Server.Data;
 using LatissimusDorsi.Server.Models;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace LatissimusDorsi.Server.Services
@@ -30,6 +31,17 @@ namespace LatissimusDorsi.Server.Services
             if (trainer == null)
                 throw new Exception($"trainer with id {id} could not be found");
             else return trainer.Workouts;
+        }
+
+        public async Task DeleteWorkoutAsync(string id, int index)
+        {
+            var filter = Builders<Trainer>.Filter.Eq(t => t.id, id);
+            
+            var unsetUpdate = Builders<Trainer>.Update.Unset($"Workouts.{index}");
+            await _trainerCollection.UpdateOneAsync(filter, unsetUpdate);
+
+            var pullUpdate = Builders<Trainer>.Update.Pull(t => t.Workouts, null);
+            await _trainerCollection.UpdateOneAsync(filter, pullUpdate);
         }
 
         private string CalculateDesiredIntensity(int age, int weight, int height, int genderFactor)

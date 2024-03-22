@@ -31,6 +31,27 @@ const WorkoutList = () => {
         fetchWorkout();
     }, [user]);
 
+    const deleteWorkout = async (workoutIndex) => {
+        try {
+            await axios.delete(`${API_URL_TRAINER}/Workout`, {
+                params: { id: user.uid, index: workoutIndex },
+                headers: {
+                    Authorization: 'Bearer ' + user.accessToken,
+                }
+            });
+            
+            const response = await axios.get(`${API_URL_TRAINER}/Workout`, {
+                params: { id: user.uid },
+                headers: {
+                    Authorization: 'Bearer ' + user.accessToken,
+                }
+            });
+            setWorkouts(response.data);
+        } catch (error) {
+            console.log("Exception: ", error);
+        }
+    }
+
     const navigateToCreateWorkout = () => {
         navigate('/CreateWorkout');
     }
@@ -68,6 +89,7 @@ const WorkoutList = () => {
                                             <p className="mb-0">Intensity: {workout.intensity}</p>
                                         </div>
                                         <div className='col-md-4'>
+                                            <button className='btn btn-danger float-end btn-delete-workout' onClick={() => deleteWorkout(index)}>Delete</button>
                                             <button className='btn btn-primary float-end' onClick={() => viewWorkout(workout)}>View</button> 
                                         </div>
                                     </div>

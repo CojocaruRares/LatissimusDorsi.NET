@@ -15,7 +15,7 @@
     top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color:white;
+    color: #DEE2E6;
 }
 
 .athlete-comments-container {
@@ -45,16 +45,18 @@
 .comment-text {
     font-style: italic;
     margin: 0;
-    font-size:1.1rem;
+    font-size: 1.1rem;
+    color: #DEE2E6;
 }
 
 .user-type{
     font-size: 0.9rem;
 }
 
-.title{
-    text-align:center;
-    margin-top:50px;
+.title {
+    text-align: center;
+    margin-top: 50px;
+    color: #DEE2E6;
 }
 
 

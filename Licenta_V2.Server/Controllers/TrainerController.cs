@@ -140,6 +140,25 @@ namespace LatissimusDorsi.NET.Server.Controllers
             return Ok(workouts);
         }
 
+        [HttpDelete("Workout")]
+        public async Task<IActionResult> DeleteWorkout(string id,int index)
+        {
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "trainer")
+            {
+                return Forbid();
+            }
+
+            await _workoutService.DeleteWorkoutAsync(id, index);
+            return NoContent();
+        }
+
         [HttpPost("TrainingSession")]
         public async Task<IActionResult> CreateSession(string id, [FromBody] TrainingSession session)
         {

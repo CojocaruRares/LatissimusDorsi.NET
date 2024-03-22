@@ -54,6 +54,10 @@ td .form-control {
     top: 0px;
 }
 
+.btn-delete-workout{
+    margin-left:30px;
+}
+
 .table-workout {
     width: 90%;
     margin-left:50px;
