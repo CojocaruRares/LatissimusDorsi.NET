@@ -1,15 +1,18 @@
 
 
 .profile-container {
-    margin-top: 5rem;
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
-
+    background-color: #435585;
+    border-radius: 25px;
+    padding:50px;
 }
 
 .profile-info {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap:200px;
     width: 100%;
 }
 
@@ -27,8 +30,7 @@
 }
 
 .name {
-    font-weight: bold;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 5px;
 }
 
@@ -57,5 +59,57 @@
 
 .MuiPaper-root {
     background-color: #26272e !important;
+}
+
+
+@media (max-width:700px){
+    div.profile-container{
+        padding:20px;
+        width:350px;
+    }
+
+    img.rounded-image{
+        width: 150px;
+        height: 150px;
+    }
+
+    div.profile-info{
+        flex-direction:column;
+        gap:40px;
+    }
+
+    p.name {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+    }
+
+    div.profile-details {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width:950px) and (min-width:700px) {
+    div.profile-container {
+        padding: 20px;
+        width: 650px;
+    }
+
+    img.rounded-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    div.profile-info {
+        gap:50px;
+    }
+
+    p.name {
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+    }
+
+    div.profile-details {
+        font-size: 1.1rem;
+    }
 }
 

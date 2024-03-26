@@ -80,3 +80,25 @@ td .form-control {
     width: 550px;
 }
 
+@media (max-width: 700px){
+    button.back-button{
+        left: 5px;
+    }
+
+    div.work-title h2{
+        font-size: 1.2rem;
+    }
+
+    div.work-title input.form-control {
+        width: 300px;
+        height: 50px;
+    }
+
+    table.table-workout {
+        width: 90%;
+        margin-left: 0px;
+        margin-right: 0px;
+        border: 1px solid #555;
+    }
+}
+

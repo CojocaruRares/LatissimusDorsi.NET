@@ -7,11 +7,10 @@ nav {
     justify-content: space-between;
     align-items: center;
     background-color: #010A13;
-    color: white;
     position: sticky;
     top: 0;
     z-index: 999;
-   font-family:"Lato";
+    font-family: "Lato";
 }
 
 nav .title-logo {
@@ -65,10 +64,15 @@ nav .menu span {
 }
 
 
-@media (max-width: 650px) {
+@media (max-width: 700px) {
     nav .menu {
         display: flex;
     }
+
+    nav div.title-logo {
+        font-size: 1.4rem;
+    }
+
 
     nav {
         flex-direction: column;

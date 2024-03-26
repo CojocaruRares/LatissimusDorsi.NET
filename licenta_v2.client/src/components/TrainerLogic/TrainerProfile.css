@@ -1,23 +1,5 @@
 
 
-.profile-container {
-    margin-top: 5rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.profile-info {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-}
-
-.profile-image {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .rounded-image-trainer {
     border-radius: 50%;
     width: 300px;
@@ -25,11 +7,6 @@
     margin-bottom: 10px;
 }
 
-.name {
-    font-weight: bold;
-    font-size: 2rem;
-    margin-bottom: 5px;
-}
 
 .profile-details {
     font-size: 1.2rem;
@@ -54,6 +31,18 @@
     margin: 100px;
 }
 
-.MuiPaper-root {
-    background-color: #26272e !important;
+@media (max-width:700px) {
+
+    img.rounded-image-trainer {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width:950px) and (min-width:700px) {
+
+    img.rounded-image-trainer {
+        width: 200px;
+        height: 200px;
+    }
 }

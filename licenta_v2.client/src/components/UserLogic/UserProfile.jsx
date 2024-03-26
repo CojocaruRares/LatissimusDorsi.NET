@@ -34,12 +34,12 @@ const UserProfile = () => {
         const fetchUserData = async () => {
             try {
                 const response = await axios.get(API_URL_USER, {
-                    params: { id: user.uid }, 
+                    params: { id: user.uid },
                     headers: {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
-                });            
-                setUserData(response.data);             
+                });
+                setUserData(response.data);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -48,7 +48,7 @@ const UserProfile = () => {
         fetchUserData();
     }, [user]);
 
-    useEffect(() => {   
+    useEffect(() => {
         if (userData.gender === 0) {
             setGender("Male");
         } else if (userData.gender === 1) {
@@ -57,35 +57,37 @@ const UserProfile = () => {
     }, [userData.gender]);
 
     return (
-        <div className='profile-container'>
-            <div className='profile-info'>
-                <div className='profile-image'>
-                    <img
-                        src={`https://localhost:7281/Public/${userData.profileImage}`}
-                        alt='Profile'
-                        className='rounded-image'
-                    />
-                    <p className='name'>{userData.name}</p>
-                    <div className="buttons">
-                    <button className='btn btn-danger mt-3' onClick={handleSignOut}>
-                        Log Out
-                        </button>
-                        <button className='btn btn-primary mt-3 edit' onClick={handleOpenModal}>
-                        Edit Profile
-                        </button>
+        <div className="d-flex justify-content-center">
+            <div className='profile-container'>
+                <div className='profile-info'>
+                    <div className='profile-image'>
+                        <img
+                            src={`https://localhost:7281/Public/${userData.profileImage}`}
+                            alt='Profile'
+                            className='rounded-image'
+                        />
+                        <p className='name'>{userData.name}</p>
+                        <div className="buttons">
+                            <button className='btn btn-danger mt-3' onClick={handleSignOut}>
+                                Log Out
+                            </button>
+                            <button className='btn btn-primary mt-3 edit' onClick={handleOpenModal}>
+                                Edit Profile
+                            </button>
+                        </div>
                     </div>
-                </div>              
-                <div className='profile-details'>
-                    <p><strong>Address:</strong> {userData.address}</p>
-                    <p><strong>Age:</strong> {userData.age}</p>
-                    <p><strong>Height:</strong> {userData.height}</p>
-                    <p><strong>Weight:</strong> {userData.weight}</p>
-                    <p><strong>Objective:</strong> {userData.objective}</p>
-                    <p><strong>Gender:</strong> {gender}</p>
-                    <p><strong>Body Fat Percentage:</strong> {userData.bodyFatPercentage}</p>                 
-                </div>            
+                    <div className='profile-details'>
+                        <p><strong>Address:</strong> {userData.address}</p>
+                        <p><strong>Age:</strong> {userData.age}</p>
+                        <p><strong>Height:</strong> {userData.height}</p>
+                        <p><strong>Weight:</strong> {userData.weight}</p>
+                        <p><strong>Objective:</strong> {userData.objective}</p>
+                        <p><strong>Gender:</strong> {gender}</p>
+                        <p><strong>Body Fat Percentage:</strong> {userData.bodyFatPercentage}</p>
+                    </div>
+                </div>
+                <EditUser open={openModal} userData={userData} handleClose={handleCloseModal} />
             </div>
-            <EditUser open={openModal} userData={userData} handleClose={handleCloseModal} />
         </div>
     );
 };
