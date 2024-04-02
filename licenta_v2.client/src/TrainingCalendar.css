@@ -104,3 +104,49 @@ abbr[title] {
     color:black;
 }
 
+
+.calendar-container-flex{
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    gap:30px;
+
+}
+
+.session-list {
+    list-style-type: none;
+    padding: 0px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:50px;
+}
+
+.session-list-item {
+    padding: 20px;
+    background-color: #535C91;
+    border-radius:25px;
+
+}
+
+@media (max-width:1500px){
+    ul.session-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+@media (max-width:1000px) {
+    ul.session-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width:700px) {
+    div.calendar-container-flex {
+        flex-direction: column;
+        align-items: center;
+    }
+   div.react-calendar{
+       width:350px;
+   }
+}

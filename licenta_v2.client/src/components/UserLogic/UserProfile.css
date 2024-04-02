@@ -6,7 +6,8 @@
     flex-direction: column;
     background-color: #435585;
     border-radius: 25px;
-    padding:50px;
+    padding:70px;
+
 }
 
 .profile-info {
@@ -62,8 +63,6 @@
 }
 
 .calendar-container{
-    display:flex;
-    justify-content:center;
     margin-top:80px;
     margin-bottom:80px;
 }

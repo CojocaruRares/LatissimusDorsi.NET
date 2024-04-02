@@ -59,7 +59,7 @@ const UserProfile = () => {
 
     return (
         <div>
-            <div className="d-flex justify-content-center flex-column">
+            <div className="d-flex justify-content-center">
                 <div className='profile-container'>
                     <div className='profile-info'>
                         <div className='profile-image'>
@@ -92,7 +92,7 @@ const UserProfile = () => {
                 </div>
             </div>
             <div className="calendar-container">
-                <TrainingCalendar></TrainingCalendar>
+                <TrainingCalendar apiUrl={API_URL_USER}></TrainingCalendar>
             </div>
         </div>
     );

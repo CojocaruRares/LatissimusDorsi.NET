@@ -231,6 +231,26 @@ namespace LatissimusDorsi.Server.Controllers
             return Ok(dataList);
         }
 
+        [HttpGet("AvailableTrainingSessions")]
+        public async Task<IActionResult> GetAvailableSessions(string userId, DateTime datetime)
+        {
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "user")
+            {
+                return Forbid();
+            }
+            var date = datetime.Date;
+
+            var sessions = await _trainingSessionService.GetSessionsByDateAndUidAsync(userId, date);
+            return Ok(sessions);
+        }
+
         [NonAction]
         public async Task<string> SaveImage(IFormFile file)
         {
