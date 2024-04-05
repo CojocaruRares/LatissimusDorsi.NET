@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { auth } from './utils/firebase-config';
+import { useNavigate } from 'react-router-dom';
 import './Home.css';
 const Home = () => {
     const [userRole, setUserRole] = useState('');
-
+    const navigate = useNavigate();
     useEffect(() => {
         const getUserRole = async () => {
             try {
@@ -19,12 +20,22 @@ const Home = () => {
         getUserRole();
     }, []);
 
+    const GotoLogIn = () => {
+        navigate('/Login')
+    }
+
     return (
         <div>
             <div className="hero-image">
                 <div className="hero-text">
-                    <h1>Train like a beast</h1>
-                    <p>Fitness made simple</p>                
+                    <h1>Achieve your fitness goals in the most optimal way !</h1>
+                    <p>With the Latissimusdorsi.net app, not only will you reach your fitness goals optimally, but you&apos;ll
+                        also enhance communication with trainers for more effective guidance.
+                        Whether it&apos;s tweaking your regimen or seeking personalized advice, seamless interaction ensures
+                        you&apos;re always on track towards your desired results.</p>
+                    {userRole ?
+                        <p className='role'>Role: {userRole}</p> :
+                        <button className='get-started-btn' onClick={GotoLogIn}>Get Started</button>}
                 </div>
             </div>
 

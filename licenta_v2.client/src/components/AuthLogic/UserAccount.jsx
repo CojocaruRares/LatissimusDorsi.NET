@@ -21,7 +21,7 @@ const UserAccountForm = () => {
         bodyFatPercentage: 0
     });
 
-    
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -61,17 +61,20 @@ const UserAccountForm = () => {
     return (
         <div className='flex-login'>
             {next == false ?
-                <form onSubmit={handleLogin} className="login-form">
-                    <div className="mb-3">
-                        <label className="form-label">Email:</label>
-                        <input type="email" className="form-control" name="email" value={formData.email} onChange={handleInputChange} />
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label">Password:</label>
-                        <input type="password" className="form-control" name="password" value={formData.password} onChange={handleInputChange} minLength="8" />
-                    </div>
-                    <button type="submit" className="btn btn-primary">Next</button>
-                </form>
+                <div>
+                    <h2>Enter user credentials.</h2>
+                    <form onSubmit={handleLogin} className="login-form">
+                        <div className="mb-3">
+                            <label className="form-label">Email:</label>
+                            <input type="email" className="form-control" name="email" value={formData.email} onChange={handleInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label">Password:</label>
+                            <input type="password" className="form-control" name="password" value={formData.password} onChange={handleInputChange} minLength="8" />
+                        </div>
+                        <button type="submit" className="btn btn-primary">Next</button>
+                    </form>
+                </div>
                 :
                 <form onSubmit={handleSubmit} className="user-account-form " encType="multipart/form-data">
                     <div className="mb-3">
@@ -115,7 +118,7 @@ const UserAccountForm = () => {
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Profile Image:</label>
-                        <input type="file" className="form-control" name="profileImage" onChange={saveImage} />        
+                        <input type="file" className="form-control" name="profileImage" onChange={saveImage} />
                     </div>
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </form>

@@ -66,12 +66,9 @@ function App() {
         <Router>
             <Navbar isLoggedIn={isLogged} role={userRole} />
             <Routes>
-                {isLogged ? (
-                    <Route path="/" element={<Home />} />
-                ) : (
-                    <Route path="/" element={<LoginForm />} />
-                )}
+                <Route path="/" element={<Home />} />
                 <Route path="/Home" element={<Home />} />
+                <Route path="/Login" element={<LoginForm />} />
                 <Route path="UserProfile" element={<UserProfile/> }/>
                 <Route path="/CreateAccount" element={<CreateAccount/>}/>
                 <Route path="/UserAccount" element={<UserAccount />} />

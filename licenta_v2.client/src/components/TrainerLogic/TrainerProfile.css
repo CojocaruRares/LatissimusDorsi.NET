@@ -7,6 +7,9 @@
     margin-bottom: 10px;
 }
 
+.role{
+    font-weight:bold;
+}
 
 .profile-details {
     font-size: 1.2rem;

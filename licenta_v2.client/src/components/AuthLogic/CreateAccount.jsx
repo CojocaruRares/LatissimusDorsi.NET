@@ -18,8 +18,8 @@ const CreateAccount = () => {
             <div className="role-selection">
                 <h2>Which is your role:</h2>
                 <div className="button-group">
-                    <button onClick={() => handleRoleSelection('Trainer')} className="btn btn-primary">Trainer</button>
-                    <button onClick={() => handleRoleSelection('User')} className="btn btn-primary">User</button>
+                    <button onClick={() => handleRoleSelection('Trainer')} className="btn btn-primary create-acc-btn">Trainer</button>
+                    <button onClick={() => handleRoleSelection('User')} className="btn btn-primary create-acc-btn">User</button>
                 </div>
             </div>
         </div>

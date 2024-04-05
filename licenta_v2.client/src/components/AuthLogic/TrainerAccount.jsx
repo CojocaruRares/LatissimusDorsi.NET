@@ -2,7 +2,7 @@ import { useState } from "react";
 import './CustomLogin.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { API_URL_TRAINER } from "../../utils/api_url"; 
+import { API_URL_TRAINER } from "../../utils/api_url";
 
 const TrainerAccountForm = () => {
     const navigate = useNavigate();
@@ -56,17 +56,21 @@ const TrainerAccountForm = () => {
     return (
         <div className='flex-login'>
             {next == false ?
-                <form onSubmit={handleLogin} className="login-form">
-                    <div className="mb-3">
-                        <label className="form-label">Email:</label>
-                        <input type="email" className="form-control" name="email" value={formData.email} onChange={handleInputChange} />
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label">Password:</label>
-                        <input type="password" className="form-control" name="password" value={formData.password} onChange={handleInputChange} minLength="8" />
-                    </div>
-                    <button type="submit" className="btn btn-primary">Next</button>
-                </form>
+                <div>
+                    <h2>Enter user credentials.</h2>
+                    <br></br>
+                    <form onSubmit={handleLogin} className="login-form">
+                        <div className="mb-3">
+                            <label className="form-label">Email:</label>
+                            <input type="email" className="form-control" name="email" value={formData.email} onChange={handleInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label">Password:</label>
+                            <input type="password" className="form-control" name="password" value={formData.password} onChange={handleInputChange} minLength="8" />
+                        </div>
+                        <button type="submit" className="btn btn-primary">Next</button>
+                    </form>
+                </div>
                 :
                 <form onSubmit={handleSubmit} className="trainer-account-form">
                     <div className="mb-3">
@@ -79,7 +83,7 @@ const TrainerAccountForm = () => {
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Description:</label>
-                        <textarea className="form-control" name="description" maxLength={340}  value={formData.description} onChange={handleInputChange} />
+                        <textarea className="form-control" name="description" maxLength={340} value={formData.description} onChange={handleInputChange} />
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Age:</label>
