@@ -2,12 +2,13 @@
 
 .hero-image {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../public/img/home/home.jpg");
-    height: 48vw;
+    height: 100vh;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
 }
+
 
 .hero-text {
     text-align: center;
@@ -83,34 +84,70 @@
     border-radius:25px;
 }
 
-
-@media (max-width: 500px) {
-    div.hero-text h1 {
-        font-size: 1.5rem;
-        margin-top: 100px;
-    }
-
-    div.hero-text p:not(.role) {
-        display:none;
-    }
+.plan-session {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    background-color: #435585;
+    width: 60vw;
+    border-radius: 25px;
+    padding: 50px;
+    align-self: center;
 }
 
-@media (max-width: 700px) {
-    div.hero-image {
-        height: 100vw;
+.planning-image {
+    width: 350px;
+    height: 350px;
+    margin-right: 20px;
+    border-radius: 25px;
+}
 
-    }
 
-    div.hero-text h1{
-        font-size:1.5rem;
+
+@media (max-width: 1200px) {
+    div.hero-text h1 {
+        font-size: 1.5rem;
+        margin-top:120px;
     }
 
     div.hero-text p {
         font-size: 1rem;
     }
 
-    h2.title{
-        font-size:1.4rem;
+}
+@media (max-width: 950px) {
+    div.plan-workout {
+        width: 95vw;
+        flex-direction: column;
+    }
+
+    div.plan-session {
+        width: 95vw;
+        flex-direction: column;
+    }
+
+    div.athlete-comments-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 700px) {
+    div.hero-image {
+        height: 100vh;
+    }
+
+    div.hero-text h1 {
+        font-size: 1.5rem;
+    }
+
+    div.hero-text p {
+        font-size: 1rem;
+    }
+
+    h2.title {
+        font-size: 1.4rem;
     }
 
     div.athlete-comments-container {
@@ -123,7 +160,7 @@
         font-size: 0.9rem;
     }
 
-    div p.user-type{
+    div p.user-type {
         font-size: 0.7rem;
     }
 
@@ -134,33 +171,53 @@
 
     div.plan-workout {
         width: 95vw;
-        flex-direction:column;
+        flex-direction: column;
     }
 
     div img.workout-image {
         width: 300px;
-        height:300px;
-        margin-left:0px;
+        height: 300px;
+        margin-left: 0px;
     }
 
-    div.workout-text h2{
-        font-size:1.2rem;
+    div.plan-session {
+        width: 95vw;
+        flex-direction: column;
+    }
+
+    div img.planning-image {
+        width: 300px;
+        height: 300px;
+        margin-left: 0px;
+    }
+
+    div.workout-text h2 {
+        font-size: 1.2rem;
     }
 
     div.workout-text p {
         font-size: 0.8rem;
     }
-
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 500px) {
     div.hero-text h1 {
-        font-size: 1.5rem;
-        margin-top:120px;
+        font-size: 1.4rem;
+        margin-top: 100px;
     }
 
     div.hero-text p {
-        font-size: 1rem;
+        font-size: 0.8rem;
     }
 
+    div img.workout-image {
+        width: 240px;
+        height: 240px;
+    }
+
+
+    div img.planning-image {
+        width: 240px;
+        height: 240px;
+    }
 }

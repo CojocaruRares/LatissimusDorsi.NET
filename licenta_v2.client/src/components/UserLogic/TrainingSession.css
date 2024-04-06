@@ -94,13 +94,7 @@
     font-size:1.3rem;  
 }
 
-@media (max-width:700px){
-    div.session-container {
-        padding: 40px;
-        padding-left: 60px;
-        padding-right: 60px;
-    }
-}
+
 
 @media (max-width: 1000px){
     div.user-session-data{
@@ -115,5 +109,13 @@
 
     p.p-user-data{
         font-size:1rem;
+    }
+}
+
+@media (max-width:700px) {
+    div.session-container {
+        padding: 40px;
+        padding-left: 60px;
+        padding-right: 60px;
     }
 }

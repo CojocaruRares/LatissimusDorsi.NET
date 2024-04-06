@@ -23,6 +23,19 @@ const Home = () => {
     const GotoLogIn = () => {
         navigate('/Login')
     }
+    const [width, setWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
         <div>
@@ -42,12 +55,12 @@ const Home = () => {
             <h2 className='title'>What Athletes Are Saying</h2>
 
             <div className="athlete-comments-container">
-               
-                <div className="athlete-comment"> 
+
+                <div className="athlete-comment">
                     <img src="../public/img/home/trainer.jpg" className="user-image" alt="img" />
                     <div>
                         <p className="comment-text">&ldquo; LattisimusDorsi.net enables me to craft customizable training programs for users effortlessly.
-                        Its intuitive interface simplifies communication, ensuring seamless interaction with clients.
+                            Its intuitive interface simplifies communication, ensuring seamless interaction with clients.
                             &rdquo;</p>
                         <br></br>
                         <p className="user-type">John, weightlifting trainer.</p>
@@ -79,7 +92,7 @@ const Home = () => {
                 </div>
 
                 <div className="athlete-comment">
-                    <img src="../public/img/home/user3.jpg" className="user-image" alt="img"/>
+                    <img src="../public/img/home/user3.jpg" className="user-image" alt="img" />
                     <div>
                         <p className="comment-text">&ldquo; As a professional athlete, I rely on LattisimusDorsi.net to keep me in peak condition.
                             The trainers behind the platform are experts in their field,
@@ -91,19 +104,35 @@ const Home = () => {
                 </div>
             </div>
             <div className="d-flex justify-content-center">
-            <div className='plan-workout'>
+                <div className='plan-workout'>
                     <div className='workout-text'>
                         <h2>Get the perfect training program.</h2>
                         <br />
                         <p>With the ability to customize factors like RPE (Rate of Perceived Exertion) and reps,
                             trainers can fine-tune workouts to optimize effectiveness and cater to individual fitness levels.</p>
-                        <br/>
+                        <br />
                         <p>It&apos;s not just about providing workouts, it&apos;s about delivering precisely what each user requires to thrive on their fitness journey.</p>
                         <br />
                         <p>Whether it&apos;s delivered via email for convenient access on-the-go or accessed directly on our platform,
                             users can effortlessly stay on track with their fitness journey.</p>
+                    </div>
+                    <img src="../public/img/home/workout.png" className='workout-image' alt="Workout" />
                 </div>
-                <img src="../public/img/home/workout.png" className='workout-image' alt="Workout" />
+            </div>
+            <br/>
+            <div className="d-flex justify-content-center">
+                <div className='plan-session'>
+                    {width > 950 && < img src="../public/img/home/planning.jpg" className='planning-image' alt="Workout" />}
+                    <div className='workout-text'>
+                        <h2>Plan your training sessions.</h2>
+                        <br />
+                        <p>Sometimes it&apos;s challenging to plan your sessions, especially when your members frequent different gyms or have access to various equipment.
+                            However, our platform provides the flexibility to adapt to diverse environments,
+                            ensuring that trainers can create effective and engaging sessions regardless of location or equipment availability.</p>
+                        <p>With easy-to-use scheduling tools, users can book sessions at their convenience and collaborate with trainers to create tailored
+                            workout plans that align with their individual goals and preferences.</p>
+                    </div>
+                    {width <= 950 && < img src="../public/img/home/planning.jpg" className='planning-image' alt="Workout" />}
                 </div>
             </div>
 
