@@ -5,10 +5,11 @@ import './Home.css';
 const Home = () => {
     const [userRole, setUserRole] = useState('');
     const navigate = useNavigate();
+    const user = auth.currentUser;
     useEffect(() => {
         const getUserRole = async () => {
             try {
-                const currentUser = auth.currentUser;
+                const currentUser = user;
                 if (currentUser) {
                     const idTokenResult = await currentUser.getIdTokenResult();
                     setUserRole(idTokenResult.claims.role);
@@ -18,7 +19,7 @@ const Home = () => {
             }
         };
         getUserRole();
-    }, []);
+    }, [user]);
 
     const GotoLogIn = () => {
         navigate('/Login')

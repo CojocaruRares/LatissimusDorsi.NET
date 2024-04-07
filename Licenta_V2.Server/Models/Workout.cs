@@ -9,7 +9,7 @@ namespace LatissimusDorsi.Server.Models
         [BsonElement("Name")]
         public string title { get; set; } = String.Empty;
 
-        [BsonElement("Objective")]
+        [BsonElement("Intensity")]
         public string intensity { get; set; } = String.Empty;
 
         [BsonElement("Exercises")]

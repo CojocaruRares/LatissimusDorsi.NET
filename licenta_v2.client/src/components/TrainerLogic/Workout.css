@@ -25,6 +25,7 @@ td .form-control {
 .btn-add-work {
     align-self: flex-start;
     margin-bottom:10px;
+    margin-left:15px;
 }
 .title-container{
     margin:40px;
@@ -80,12 +81,33 @@ td .form-control {
     width: 550px;
 }
 
-@media (max-width: 700px){
-    button.back-button{
+
+@media (max-width: 1500px){
+    table.table td:first-child, tablet th:first-child {
+        width: 150px;
+    }
+
+    table.table td:nth-child(5), table th:nth-child(5) {
+        width: 350px;
+    }
+}
+
+@media (max-width: 1000px) {
+    table.table td:first-child, tablet th:first-child {
+        width: 100px;
+    }
+
+    table.table td:nth-child(5), table th:nth-child(5) {
+        width: 150px;
+    }
+}
+
+@media (max-width: 700px) {
+    button.back-button {
         left: 5px;
     }
 
-    div.work-title h2{
+    div.work-title h2 {
         font-size: 1.2rem;
     }
 
@@ -95,10 +117,22 @@ td .form-control {
     }
 
     table.table-workout {
-        width: 90%;
+        width: 100vw;
         margin-left: 0px;
         margin-right: 0px;
         border: 1px solid #555;
     }
+
+    table.table th,
+    table.table td input {
+        font-size:0.7rem;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 }
+
 

@@ -102,5 +102,15 @@ namespace LatissimusDorsi.Server.Services
             return await _sessionCollection.Find(filter).ToListAsync();
         }
 
+        public async Task<List<TrainingSession>> GetSessionsByDateAndTraineridAsync(string userId, DateTime date)
+        {
+            var onlyDate = date.Date.AddDays(1);
+            var filter = Builders<TrainingSession>.Filter.Where(session =>
+            session.startDate.Date == onlyDate &&
+            session.trainerId.Equals(userId));
+
+            return await _sessionCollection.Find(filter).ToListAsync();
+        }
+
     }
 }

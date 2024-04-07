@@ -41,9 +41,6 @@ namespace LatissimusDorsi.NET.Server.Controllers
         {
             Regex emailRegex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
             string name = "";
-            if (authdto.profileImage != null)
-                name = await SaveImage(authdto.profileImage);
-
             Trainer user = new Trainer
             {
                 name = authdto.name,
@@ -59,6 +56,8 @@ namespace LatissimusDorsi.NET.Server.Controllers
             {
                 return BadRequest();
             }
+            if (authdto.profileImage != null)
+                name = await SaveImage(authdto.profileImage);
             await _trainerService.CreateAsync(user);
             await _firebaseAuthService.CreateUserWithClaim(authdto.Email, authdto.Password, user.id, "trainer");
             return CreatedAtAction(nameof(Get), new { id = user.id }, user);
@@ -116,8 +115,13 @@ namespace LatissimusDorsi.NET.Server.Controllers
                 return NotFound($"Trainer with id = {id} not found");
             }
 
+            if(WorkoutValidator(workout)==false)
+            {
+                return BadRequest();
+            }
+
             await _workoutService.AddWorkoutAsync(id, workout);
-            return Ok("Workout added successfully.");
+            return CreatedAtAction(nameof(Get),workout);
         }
 
         [HttpGet("Workout")]
@@ -187,7 +191,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
             
             session.trainerId = id;
             await _trainingSessionService.CreateAsync(session);
-            return Ok("Session created successfully.");
+            return CreatedAtAction(nameof(Get),session);
 
         }
 
@@ -210,6 +214,27 @@ namespace LatissimusDorsi.NET.Server.Controllers
             return Ok(sessions);
 
         }
+
+        [HttpGet("AvailableTrainingSessions")]
+        public async Task<IActionResult> GetAvailableSessions(string userId, DateTime datetime)
+        {
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "trainer")
+            {
+                return Forbid();
+            }
+            var date = datetime.Date;
+
+            var sessions = await _trainingSessionService.GetSessionsByDateAndTraineridAsync(userId, date);
+            return Ok(sessions);
+        }
+
 
 
         [NonAction]
@@ -259,6 +284,42 @@ namespace LatissimusDorsi.NET.Server.Controllers
                 return false;
             }
 
+            return true;
+        }
+
+        [NonAction]
+        public bool WorkoutValidator(Workout workout)
+        {
+            if(workout == null)
+            {
+                return false;
+            }
+            if(workout.title.Length < 3)
+            {
+                return false;
+            }
+            if(workout.intensity != "moderate" &&  workout.intensity != "low" && workout.intensity != "high")
+            {
+                return false;
+            }
+            foreach (var pair in workout.exercises)
+            {
+                string day = pair.Key;
+                List<Exercise> exercisesList = pair.Value;
+
+                foreach (Exercise exercise in exercisesList)
+                {
+                    if (exercise.name == null || exercise.name.Length < 3)
+                    {
+                        return false; 
+                    }
+
+                    if (exercise.rpe != null && (exercise.rpe < 1 || exercise.rpe > 10))
+                    {
+                        return false; 
+                    }
+                }
+            }
             return true;
         }
     }

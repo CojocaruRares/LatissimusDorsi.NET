@@ -83,7 +83,7 @@ const TrainerProfile = () => {
                 </div>
             </div>
             <div className="calendar-container">
-                <TrainingCalendar></TrainingCalendar>
+                <TrainingCalendar apiUrl={API_URL_TRAINER}></TrainingCalendar>
             </div>
         </div>
     );

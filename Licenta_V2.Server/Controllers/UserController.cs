@@ -57,9 +57,6 @@ namespace LatissimusDorsi.Server.Controllers
         {
             Regex emailRegex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
             string name = "";
-            if (authdto.profileImage != null)
-                name = await SaveImage(authdto.profileImage);
-
             User user = new User
             {
                 name = authdto.name,
@@ -76,6 +73,8 @@ namespace LatissimusDorsi.Server.Controllers
             {
                 return BadRequest();
             }
+            if (authdto.profileImage != null)
+                name = await SaveImage(authdto.profileImage);
             await _userService.CreateAsync(user);
             await _firebaseAuthService.CreateUserWithClaim(authdto.Email, authdto.Password, user.id, "user");
             return CreatedAtAction(nameof(Get), new { id = user.id }, user);
@@ -167,7 +166,7 @@ namespace LatissimusDorsi.Server.Controllers
             this._pdfService.GenerateWorkoutPDF(workout,path);
             this._emailService.SendPdf(email,path);
 
-            return Ok();
+            return Ok("Email has been sent!");
         }
 
         [HttpGet("TrainingSession")]
@@ -207,7 +206,7 @@ namespace LatissimusDorsi.Server.Controllers
             var isJoin = await _trainingSessionService.JoinSessionAsync(sessionId, userId);
             if (isJoin == true)
                 return Ok("success: User joines session");
-            else return Ok("fail: There are no available slots");
+            else return BadRequest("fail: There are no available slots");
 
         }
 
