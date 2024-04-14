@@ -5,6 +5,7 @@ import axios from 'axios';
 import { API_URL_TRAINER } from '../../utils/api_url';
 import { auth } from '../../utils/firebase-config';
 import { useNavigate } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
 
 const CreateWorkout = () => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const CreateWorkout = () => {
         Saturday: { name: '', sets: null, reps: null, rpe: null, description: '' },
         Sunday: { name: '', sets: null, reps: null, rpe: null, description: '' },
     });
-
+    const [isFail, setIsFail] = useState(false);
     const [token, setToken] = useState(null);
     const [uid, setUid] = useState(''); 
     const user = auth.currentUser;
@@ -82,14 +83,15 @@ const CreateWorkout = () => {
  
             });
             console.log("Workout saved successfully!");
+            navigate('/WorkoutList');
         } catch (error) {
             console.error("Error saving workout:", error);
+            setIsFail(true);
         }
-        navigate('/WorkoutList');
     };
    
     return (
-        <div>
+        <div >
             <div className="work-title">
                 <div className='d-flex flex-column'>
                 <label htmlFor="workoutTitle">Workout Title</label>
@@ -114,6 +116,15 @@ const CreateWorkout = () => {
             <div className="btn-save">
                 <button className="btn btn-primary" onClick={saveWorkout} >Save Workout</button>
             </div>
+            {
+                isFail && <Alert variant="outlined" severity="error" onClose={() => {setIsFail(false)}}
+                    sx={{
+                        color: 'red', width: '40vw', margin: 'auto', 
+                        marginBottom: '30px',
+                        zIndex: '999'
+                    }}
+                >Please enter valid data !</Alert>
+            }
         </div>
     );
 }
