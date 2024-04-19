@@ -3,7 +3,8 @@ import axios from 'axios';
 import { API_URL_USER, API_URL_TRAINER } from '../../utils/api_url';
 import { auth } from '../../utils/firebase-config';
 import ViewTrainer from './ViewTrainer';
-
+import Alert from '@mui/material/Alert';
+import './TrainingSession.css';
 const TrainingSessionsList = () => {
     const [sessions, setSessions] = useState([]);
     const [filteredSessions, setFilteredSessions] = useState([]);
@@ -11,6 +12,7 @@ const TrainingSessionsList = () => {
     const user = auth.currentUser;
     const [trainer, setTrainer] = useState(null); 
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [isFail, setIsFail] = useState(false);
 
     useEffect(() => {
         const fetchSessions = async () => {
@@ -63,6 +65,7 @@ const TrainingSessionsList = () => {
             console.log(response);
         } catch (error) {
             console.log("Error joining session: ", error);
+            setIsFail(true);
         }
     }
 
@@ -92,20 +95,29 @@ const TrainingSessionsList = () => {
                 {filteredSessions.map(session => (
                     <div className="col" key={session.id}>
                         <div className="card">
-                            <div className="card-body">
+                            <div className="card-body session-body">
                                 <h5 className="card-title">{session.title}</h5>
                                 <p className="card-text">Start Date: {formatDateTime(session.startDate)}</p>
                                 <p className="card-text">City: {session.city}</p>
                                 <p className="card-text">Gym Location: {session.gym}</p>
                                 <p className="card-text">Available Slots: {session.slots}</p>
                                 <button className="btn btn-primary" onClick={() => joinTrainingSession(session.id)} >Join</button>
-                                <button className="btn btn-info" onClick={() => handleOpenDialog(session.trainerId)}>Info</button>
+                                <button className="btn btn-info trainer-info-btn" onClick={() => handleOpenDialog(session.trainerId)}>Info</button>
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
             {trainer && <ViewTrainer open={dialogOpen} handleClose={handleCloseDialog} trainerData={trainer} />}
+            {
+                isFail && <Alert variant="outlined" severity="error" onClose={() => {setIsFail(false)}}
+                    sx={{
+                        color: 'red', width: '40vw', margin: 'auto', 
+                        marginBottom: '30px',
+                        zIndex: '999'
+                    }}
+                >You cannot enroll into this session !</Alert>
+            }
         </div>
     );
 };

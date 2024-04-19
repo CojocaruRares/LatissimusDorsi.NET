@@ -20,7 +20,6 @@ namespace LatissimusDorsi.Server.Controllers
         private readonly TrainingSessionService _trainingSessionService;
         private readonly IWebHostEnvironment _environment;
 
-
         public UserController(UserService userService, FirebaseAuthService firebaseAuthService, WorkoutService workoutService,
             TrainingSessionService trainingSession, IWebHostEnvironment env, PdfService pdfService, EmailService emailService)
         {

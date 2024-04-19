@@ -188,6 +188,11 @@ namespace LatissimusDorsi.NET.Server.Controllers
             {
                 return BadRequest();
             }
+
+            if(_trainingSessionService.IsSessionOverlappingTrainer(session,id))
+            {
+                return BadRequest();
+            }
             
             session.trainerId = id;
             await _trainingSessionService.CreateAsync(session);
@@ -259,7 +264,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
                 return false;
             }
 
-            if (session.title.Length < 3)
+            if (session.title.Length < 3 || session.title.Length > 30)
             {
                 return false;
             }
@@ -269,7 +274,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
                 return false;
             }
 
-            if (session.city.Length < 3)
+            if (session.city.Length < 3 || session.city.Length > 20)
             {
                 return false;
             }

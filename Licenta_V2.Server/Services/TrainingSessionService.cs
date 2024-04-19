@@ -78,6 +78,9 @@ namespace LatissimusDorsi.Server.Services
 
             TrainingSession session = await _sessionCollection.Find(filter).FirstOrDefaultAsync();
 
+            if (this.IsSessionOverlappingUser(session,userId))
+                return false;
+
             if (session.users.Count < session.slots && DateTime.Compare(session.startDate,currentDate) > 0) {
                 await _sessionCollection.UpdateOneAsync(filter, update);
                 return true;
@@ -110,6 +113,36 @@ namespace LatissimusDorsi.Server.Services
             session.trainerId.Equals(userId));
 
             return await _sessionCollection.Find(filter).ToListAsync();
+        }
+
+        public bool IsSessionOverlappingTrainer(TrainingSession session, string trainerId)
+        {
+            DateTime sessionEnd = session.startDate.AddHours(2); 
+
+            var overlappingSessionsFilter = Builders<TrainingSession>.Filter.And(
+                Builders<TrainingSession>.Filter.Gte(s => s.startDate, session.startDate),
+                Builders<TrainingSession>.Filter.Lt(s => s.startDate, sessionEnd),
+                Builders<TrainingSession>.Filter.Eq(s => s.trainerId, trainerId)
+            );
+
+            bool isOverlap =  _sessionCollection.Find(overlappingSessionsFilter).Any();
+
+            return isOverlap;
+        }
+
+        public bool IsSessionOverlappingUser(TrainingSession session, string userId)
+        {
+            DateTime sessionEnd = session.startDate.AddHours(2);
+
+            var overlappingSessionsFilter = Builders<TrainingSession>.Filter.And(
+                Builders<TrainingSession>.Filter.Gte(s => s.startDate, session.startDate),
+                Builders<TrainingSession>.Filter.Lt(s => s.startDate, sessionEnd),
+                Builders<TrainingSession>.Filter.AnyEq(s => s.users, userId)
+            );
+
+            bool isOverlap = _sessionCollection.Find(overlappingSessionsFilter).Any();
+
+            return isOverlap;
         }
 
     }

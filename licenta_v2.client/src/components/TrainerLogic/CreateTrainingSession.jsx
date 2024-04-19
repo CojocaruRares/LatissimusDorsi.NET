@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL_TRAINER } from '../../utils/api_url';
 import { auth } from '../../utils/firebase-config';
+import { useNavigate } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
 
 const CreateTrainingSession = () => {
+    const navigate = useNavigate();
     const [trainingSession, setTrainingSession] = useState({
         trainerId: '',
         users: [],
@@ -13,7 +16,7 @@ const CreateTrainingSession = () => {
         gym: '',
         slots: 0
     });
-
+    const [isFail, setIsFail] = useState(false);
     const [token, setToken] = useState(null);
     const [uid, setUid] = useState('');
     const user = auth.currentUser;
@@ -41,11 +44,12 @@ const CreateTrainingSession = () => {
                 headers: {
                     Authorization: 'Bearer ' + token,
                 }
-
             });
             console.log('Training session created:', response.data);
+            navigate('/TrainingSessionList');
         } catch (error) {
             console.error('Error creating training session:', error);
+            setIsFail(true);
         }
     };
 
@@ -79,6 +83,17 @@ const CreateTrainingSession = () => {
                     </form>
                 </div>
             </div>
+            {
+                isFail && <Alert variant="outlined" severity="error" onClose={() => setIsFail(false)}
+                    sx={{
+                        color: 'red', width: '40vw', margin: 'auto', position: 'absolute',
+                        bottom: '60px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        zIndex: '999'
+                    }}
+                >Please enter valid data !</Alert>
+            }
         </div>
     );
 };
