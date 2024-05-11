@@ -36,6 +36,11 @@ namespace LatissimusDorsi.Server.Services
             return user.Uid;
         }
 
+        public async Task DeleteUser(string id)
+        {
+            await _auth.DeleteUserAsync(id);
+        }
+
     
         public async Task<string> GetRoleForUser(string token)
         {

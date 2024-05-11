@@ -17,7 +17,7 @@ const UserNavbar = () => {
                 <li><NavLink  to="/Home">Home</NavLink></li>
                 <li><NavLink  to="/UserProfile">Profile</NavLink></li>
                 <li><NavLink  to="/WorkoutPlan">Workout Plan</NavLink></li>
-                <li><NavLink  to="/TrainingSessions">Training Sessions</NavLink></li>
+                <li><NavLink to="/TrainingSessions">Training Sessions</NavLink></li>
             </ul>
         </nav>
     );

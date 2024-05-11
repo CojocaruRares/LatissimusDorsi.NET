@@ -9,6 +9,7 @@
     <PublishAssetsDirectory>$(MSBuildProjectDirectory)\dist</PublishAssetsDirectory>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="src\components\AdminLogic\" />
     <Folder Include="src\components\UserLogic\" />
   </ItemGroup>
 </Project>

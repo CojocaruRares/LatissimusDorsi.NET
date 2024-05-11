@@ -18,6 +18,9 @@ import { useState, useEffect } from 'react';
 import { auth } from './utils/firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import TrainingSessionList from './components/TrainerLogic/TrainingSessionList';
+import AdminNavbar from './components/AdminLogic/AdminNavbar';
+import GetAllUsers from './components/AdminLogic/GetAllUsers';
+import GetAllTrainers from './components/AdminLogic/GetAllTrainers';
 
 function App() {
     const [isLogged, SetLog] = useState(false);
@@ -53,6 +56,9 @@ function App() {
         else if (isLoggedIn && role === "trainer") {
             return <TrainerNavbar />;
         }
+        else if (isLoggedIn && role === "admin") {
+            return <AdminNavbar />;
+        }
         else return;
 
     }
@@ -79,7 +85,9 @@ function App() {
                 <Route path="/WorkoutPlan" element={<WorkoutPlan />} />
                 <Route path="/CreateTrainingSession" element={<CreateTrainingSession />} />
                 <Route path="/TrainingSessionList" element={<TrainingSessionList /> } />
-                <Route path="/TrainingSessions" element={<TrainingSessions /> } />
+                <Route path="/TrainingSessions" element={<TrainingSessions />} />
+                <Route path="/GetAllUsers" element={<GetAllUsers />} />
+                <Route path="/GetAllTrainers" element={<GetAllTrainers />} />
             </Routes>
         </Router>
     );

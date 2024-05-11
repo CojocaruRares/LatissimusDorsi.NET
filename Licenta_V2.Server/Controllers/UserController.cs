@@ -107,13 +107,7 @@ namespace LatissimusDorsi.Server.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete(string id)
-        {
-            await _userService.DeleteAsync(id);
-            return NoContent();
-        }
-
+      
         [HttpGet("Workout")]
         public async Task<IActionResult> GetWorkout(string id)
         {

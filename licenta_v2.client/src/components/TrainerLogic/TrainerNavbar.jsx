@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import '../UserLogic/UserNavbar.css';
 
 
-const UserNavbar = () => {
+const TrainerNavbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     return (
         <nav>
@@ -23,4 +23,4 @@ const UserNavbar = () => {
     );
 };
 
-export default UserNavbar;
+export default TrainerNavbar;

@@ -87,12 +87,6 @@ namespace LatissimusDorsi.NET.Server.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete(string id)
-        {
-            await _trainerService.DeleteAsync(id);
-            return NoContent();
-        }
 
         [HttpPost("Workout")]
         public async Task<IActionResult> PostWorkout(string id, [FromBody] Workout workout)
@@ -239,7 +233,6 @@ namespace LatissimusDorsi.NET.Server.Controllers
             var sessions = await _trainingSessionService.GetSessionsByDateAndTraineridAsync(userId, date);
             return Ok(sessions);
         }
-
 
 
         [NonAction]

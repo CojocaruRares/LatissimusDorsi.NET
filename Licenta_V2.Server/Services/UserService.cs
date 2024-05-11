@@ -45,5 +45,32 @@ namespace LatissimusDorsi.Server.Services
             return;
         }
 
+        public async Task<List<UserProjection>> GetPartialAsync()
+        {
+            var filter = Builders<User>.Filter.Empty;
+            var projection = Builders<User>.Projection
+                .Include(u => u.id)
+                .Include(u => u.name)
+                .Include(u => u.address)
+                .Include(u => u.Objective)
+                .Include(u => u.profileImage);
+
+            var bsonUsers = await _userCollection.Find(filter).Project(projection).ToListAsync();
+
+            var users = bsonUsers.Select(bson =>
+            {
+                return new UserProjection
+                {
+                    Id = bson.GetValue("_id").AsObjectId.ToString(),
+                    Name = bson.GetValue("Name").AsString,
+                    Address = bson.GetValue("Address").AsString,
+                    Objective = bson.GetValue("Objective").AsString,
+                    ProfileImage = bson.GetValue("ProfileImage").AsString
+                };
+            }).ToList();
+
+            return users;
+        }
+
     }
 }

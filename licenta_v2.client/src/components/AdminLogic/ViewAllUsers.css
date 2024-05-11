@@ -1,0 +1,87 @@
+.user-image-admin {
+    border-radius: 50%;
+    width: 100px; 
+    height: 100px;
+}
+
+.list-container {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.all-users-list {
+    list-style: none;
+    padding: 0;
+    width: 80vw;
+    margin-top: 60px;
+}
+
+.user-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 50px;
+    padding: 10px;
+    padding-left:50px;
+    padding-right:50px;
+    margin: 20px;
+    border-radius: 20px;
+    background-color: #435585;
+}
+
+.dropdown {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+}
+
+.dropbtn {
+    background-color: #50727B;
+}
+.input-container {
+    display: flex;
+    flex-direction: column; 
+    padding: 10px; 
+    gap:20px;
+}
+
+@media (max-width:600px) {
+    div.user-details {
+        gap: 10px;
+        flex-direction:column
+    }
+
+    img.user-image-admin {
+        width: 60px;
+        height: 60px;
+    }
+
+    p.user-info {
+        font-size: 0.8rem;
+    }
+    button.delete-btn {
+        scale: 0.8;
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 601px) {
+    div.user-details {
+        gap: 10px;
+    }
+
+    img.user-image-admin {
+        width: 80px;
+        height: 80px;
+    }
+    
+    p.user-info{
+        font-size:0.9rem;
+    }
+
+    button.delete-btn{
+        scale:0.9;
+    }
+}
+
