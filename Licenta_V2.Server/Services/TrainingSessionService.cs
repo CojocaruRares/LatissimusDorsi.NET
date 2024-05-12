@@ -35,6 +35,12 @@ namespace LatissimusDorsi.Server.Services
             return await _sessionCollection.Find(session => session.id == id).FirstOrDefaultAsync();
         }
 
+        public async Task DeleteSessionByTrainerAsync(string id)
+        {
+            var filter = Builders<TrainingSession>.Filter.Eq(x => x.trainerId, id);
+            await _sessionCollection.DeleteManyAsync(filter);
+        }
+
         //if the training sessions are too old ( at least a month ) delete them.
         public async Task CleanupSessionsAsync()
         {

@@ -73,10 +73,33 @@ namespace LatissimusDorsi.Server.Controllers
             {
                 return Forbid();
             }
+
             await _userService.DeleteAsync(id);
             await _firebaseAuthService.DeleteUser(id);
-            return NoContent();
 
+            return NoContent();
+        }
+
+        [HttpDelete("Trainers")]
+        public async Task<IActionResult> DeleteTrainer(string id)
+        {
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+            if (role != "admin")
+            {
+                return Forbid();
+            }
+
+            await _trainingSessionService.DeleteSessionByTrainerAsync(id);
+            await _trainerService.DeleteAsync(id);
+            await _firebaseAuthService.DeleteUser(id);
+          
+            return NoContent();
         }
 
     }
