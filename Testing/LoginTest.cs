@@ -29,7 +29,7 @@ namespace Testing
         [TestMethod]
         public void ValidLogInUser()
         {
-            DefaultHomePage homePage = new DefaultHomePage(_driver);
+            HomePage homePage = new HomePage(_driver);
             SignInPage signInPage = homePage.GoToSignInPage();
 
             string expectedTitle = "Sign in";
@@ -40,15 +40,36 @@ namespace Testing
             string email = "pentaadoge@gmail.com";
             string password = "pentaadoge";
 
-            AuthHomePage newHomePage = signInPage.FillUserCred(email, password, true);
-            var role = newHomePage.GetRoleText();
+            signInPage.FillUserCred(email, password);
+            homePage.setRole();
+            var role = homePage.GetRoleText();
             Assert.IsTrue(role == "Role: user", "Log in failes");
+        }
+
+        [TestMethod]
+        public void ValidLogInTrainer()
+        {
+            HomePage homePage = new HomePage(_driver);
+            SignInPage signInPage = homePage.GoToSignInPage();
+
+            string expectedTitle = "Sign in";
+            string actualTitle = signInPage.GetPageTitle();
+
+            Assert.AreEqual(expectedTitle, actualTitle, "Page title is not the expected one.");
+
+            string email = "trainer_test@gmail.com";
+            string password = "trainer_test";
+
+            signInPage.FillUserCred(email, password);
+            homePage.setRole();
+            var role = homePage.GetRoleText();
+            Assert.IsTrue(role == "Role: trainer", "Log in failes");
         }
 
         [TestMethod]
         public void InvalidLogInUser()
         {
-            DefaultHomePage homePage = new DefaultHomePage(_driver);
+            HomePage homePage = new HomePage(_driver);
             SignInPage signInPage = homePage.GoToSignInPage();
 
             string expectedTitle = "Sign in";
@@ -59,9 +80,8 @@ namespace Testing
             string email = "randomabcd";
             string password = "12345";
 
-            signInPage.FillUserCred(email, password, false);
+            signInPage.FillUserCred(email, password);
             Assert.IsTrue(signInPage.IsErrorDisplayed(), "Error message is not displayed.");
-
         }
     }
 }

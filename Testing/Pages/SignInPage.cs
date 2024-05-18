@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,18 +27,17 @@ namespace Testing.Pages
             return _pageTitle.Text;
         }
 
-        public AuthHomePage FillUserCred(string email, string password,bool isDataValid)
+        public void FillUserCred(string email, string password)
         {
             _email.SendKeys(email);
             _password.SendKeys(password);
-            _submit.Click();
-            if(!isDataValid) { return null; }
-            return new AuthHomePage(_driver);
+            _submit.Click();  
         }
 
         public bool IsErrorDisplayed()
         {
-            Thread.Sleep(1000); 
+            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3));
+            wait.Until(driver => driver.FindElement(By.CssSelector("div.MuiPaper-root")).Displayed);
             try
             {
                 _driver.FindElement(By.CssSelector("div.MuiPaper-root"));
@@ -48,7 +48,5 @@ namespace Testing.Pages
                 return false; 
             }
         }
-
-
     }
 }

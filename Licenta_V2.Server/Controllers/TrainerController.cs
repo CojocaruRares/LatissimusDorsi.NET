@@ -58,6 +58,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
             }
             if (authdto.profileImage != null)
                 name = await SaveImage(authdto.profileImage);
+            user.profileImage = name;
             await _trainerService.CreateAsync(user);
             await _firebaseAuthService.CreateUserWithClaim(authdto.Email, authdto.Password, user.id, "trainer");
             return CreatedAtAction(nameof(Get), new { id = user.id }, user);
