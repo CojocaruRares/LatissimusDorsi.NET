@@ -1,13 +1,16 @@
+﻿using OpenQA.Selenium.Edge;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Testing.Pages;
-
 
 namespace Testing
 {
     [TestClass]
-    public class LoginTest
+    public class EditProfileTest
     {
         private IWebDriver _driver;
 
@@ -17,7 +20,7 @@ namespace Testing
             _driver = new EdgeDriver();
             _driver.Manage().Window.Maximize();
             _driver.Navigate().GoToUrl("https://localhost:5173/");
- 
+
         }
 
         [TestCleanup]
@@ -27,7 +30,32 @@ namespace Testing
         }
 
         [TestMethod]
-        public void ValidLogInUser()
+        public void EditTrainerSpecialization()
+        {
+            HomePage homePage = new HomePage(_driver);
+            SignInPage signInPage = homePage.GoToSignInPage();     
+
+            string expectedTitle = "Sign in";
+            string actualTitle = signInPage.GetPageTitle();
+
+            Assert.AreEqual(expectedTitle, actualTitle, "Page title is not the expected one.");
+
+            string email = "trainer_test@gmail.com";
+            string password = "trainer_test";
+            signInPage.FillUserCred(email, password);
+            Navbar navbar = new Navbar(_driver);
+
+            ProfilePage profilePage = navbar.ClickProfile();
+            profilePage.EditTrainerSpec();
+
+            Thread.Sleep(1000);
+            string specialization = profilePage.GetTrainerSpec();
+            Assert.AreEqual("Specialization: Weightloss", specialization,  "Wrong specialization. " +
+                "spec must be weightloss after test");
+        }
+
+        [TestMethod]
+        public void EditUserName()
         {
             HomePage homePage = new HomePage(_driver);
             SignInPage signInPage = homePage.GoToSignInPage();
@@ -39,49 +67,15 @@ namespace Testing
 
             string email = "user_test@gmail.com";
             string password = "user_test";
-
             signInPage.FillUserCred(email, password);
-            homePage.setRole();
-            var role = homePage.GetRoleText();
-            Assert.IsTrue(role == "Role: user", "Log in failes");
-        }
+            Navbar navbar = new Navbar(_driver);
 
-        [TestMethod]
-        public void ValidLogInTrainer()
-        {
-            HomePage homePage = new HomePage(_driver);
-            SignInPage signInPage = homePage.GoToSignInPage();
+            ProfilePage profilePage = navbar.ClickProfile();
+            profilePage.EditUserName("TestUser");
 
-            string expectedTitle = "Sign in";
-            string actualTitle = signInPage.GetPageTitle();
-
-            Assert.AreEqual(expectedTitle, actualTitle, "Page title is not the expected one.");
-
-            string email = "trainer_test@gmail.com";
-            string password = "trainer_test";
-
-            signInPage.FillUserCred(email, password);
-            homePage.setRole();
-            var role = homePage.GetRoleText();
-            Assert.IsTrue(role == "Role: trainer", "Log in failes");
-        }
-
-        [TestMethod]
-        public void InvalidLogInUser()
-        {
-            HomePage homePage = new HomePage(_driver);
-            SignInPage signInPage = homePage.GoToSignInPage();
-
-            string expectedTitle = "Sign in";
-            string actualTitle = signInPage.GetPageTitle();
-
-            Assert.AreEqual(expectedTitle, actualTitle, "Page title is not the expected one.");
-
-            string email = "randomabcd";
-            string password = "12345";
-
-            signInPage.FillUserCred(email, password);
-            Assert.IsTrue(signInPage.IsErrorDisplayed(), "Error message is not displayed.");
+            Thread.Sleep(1000);
+            string actualName = profilePage.GetProfileName();
+            Assert.AreEqual("TestUser",actualName,"incorrect name");
         }
     }
 }
