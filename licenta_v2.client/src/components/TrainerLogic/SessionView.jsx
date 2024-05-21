@@ -10,9 +10,7 @@ const SessionView = ({ session }) => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get(`${API_URL_USER}/TrainingSessionUsers`, {
-                    params: { sessionId: session.id },
-                });
+                const response = await axios.get(`${API_URL_USER}/training-sessions/${session.id}/enrolled-users`);
                 setUsers(response.data);
                 console.log(response.data);
             }

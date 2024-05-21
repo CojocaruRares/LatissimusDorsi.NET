@@ -34,8 +34,7 @@ const UserProfile = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(API_URL_USER, {
-                    params: { id: user.uid },
+                const response = await axios.get(`${API_URL_USER}/${user.uid}`, {
                     headers: {
                         Authorization: 'Bearer ' + user.accessToken,
                     }

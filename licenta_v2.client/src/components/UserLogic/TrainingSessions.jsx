@@ -17,7 +17,7 @@ const TrainingSessionsList = () => {
     useEffect(() => {
         const fetchSessions = async () => {
             try {
-                const response = await axios.get(`${API_URL_USER}/TrainingSession`, {
+                const response = await axios.get(`${API_URL_USER}/training-sessions`, {
                     headers: {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
@@ -56,8 +56,8 @@ const TrainingSessionsList = () => {
 
     const joinTrainingSession = async (id) => {
         try {
-                const response = await axios.patch(`${API_URL_USER}/TrainingSession`,null, {
-                params: { sessionId: id, userId: user.uid },
+                const response = await axios.patch(`${API_URL_USER}/training-sessions/${id}/join`,null, {
+                params: { userId: user.uid },
                 headers: {
                     Authorization: 'Bearer ' + user.accessToken,
                 }

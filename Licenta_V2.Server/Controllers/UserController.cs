@@ -10,7 +10,7 @@ namespace LatissimusDorsi.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly UserService _userService;
         private readonly WorkoutService _workoutService;
@@ -20,7 +20,7 @@ namespace LatissimusDorsi.Server.Controllers
         private readonly TrainingSessionService _trainingSessionService;
         private readonly IWebHostEnvironment _environment;
 
-        public UserController(UserService userService, FirebaseAuthService firebaseAuthService, WorkoutService workoutService,
+        public UsersController(UserService userService, FirebaseAuthService firebaseAuthService, WorkoutService workoutService,
             TrainingSessionService trainingSession, IWebHostEnvironment env, PdfService pdfService, EmailService emailService)
         {
             this._workoutService = workoutService;
@@ -32,7 +32,7 @@ namespace LatissimusDorsi.Server.Controllers
             this._trainingSessionService = trainingSession;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
@@ -80,7 +80,7 @@ namespace LatissimusDorsi.Server.Controllers
             return CreatedAtAction(nameof(Get), new { id = user.id }, user);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, [FromBody] User user)
         {
             var existingUser = await _userService.GetAsync(id);
@@ -109,7 +109,7 @@ namespace LatissimusDorsi.Server.Controllers
         }
 
       
-        [HttpGet("Workout")]
+        [HttpGet("{id}/workout")]
         public async Task<IActionResult> GetWorkout(string id)
         {
             var user = await _userService.GetAsync(id);
@@ -141,8 +141,8 @@ namespace LatissimusDorsi.Server.Controllers
 
         }
 
-        [HttpPost("Workout")]
-        public async Task<IActionResult> EmailWorkout(string email, [FromBody] Workout workout)
+        [HttpPost("{id}/workout/email")]
+        public async Task<IActionResult> EmailWorkout(string id , [FromQuery] string email, [FromBody] Workout workout)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
             if (token == null)
@@ -163,7 +163,7 @@ namespace LatissimusDorsi.Server.Controllers
             return Ok("Email has been sent!");
         }
 
-        [HttpGet("TrainingSession")]
+        [HttpGet("training-sessions")]
         public async Task<IActionResult> GetTrainingSession()
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
@@ -182,8 +182,8 @@ namespace LatissimusDorsi.Server.Controllers
             return Ok(sessions);
         }
 
-        [HttpPatch("TrainingSession")]
-        public async Task<IActionResult> JoinTrainingSession(string sessionId, string userId)
+        [HttpPatch("training-sessions/{sessionId}/join")]
+        public async Task<IActionResult> JoinTrainingSession(string sessionId, [FromQuery] string userId)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
             if (token == null)
@@ -204,11 +204,11 @@ namespace LatissimusDorsi.Server.Controllers
 
         }
 
-        [HttpGet("TrainingSessionUsers")]
-        public async Task<IActionResult> GetEnrolledUsers(string sessionId)
+        [HttpGet("training-sessions/{id}/enrolled-users")]
+        public async Task<IActionResult> GetEnrolledUsers(string id)
         {      
             var dataList = new List<SessionUsersDTO>();
-            var userList = await _trainingSessionService.GetUsersAsync(sessionId);
+            var userList = await _trainingSessionService.GetUsersAsync(id);
             if(userList == null)
                 return NotFound();
             foreach (var userId in userList)
@@ -224,8 +224,8 @@ namespace LatissimusDorsi.Server.Controllers
             return Ok(dataList);
         }
 
-        [HttpGet("AvailableTrainingSessions")]
-        public async Task<IActionResult> GetAvailableSessions(string userId, DateTime datetime)
+        [HttpGet("{id}/my-sessions")]
+        public async Task<IActionResult> GetAvailableSessions(string id, [FromQuery] DateTime datetime)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
             if (token == null)
@@ -240,7 +240,7 @@ namespace LatissimusDorsi.Server.Controllers
             }
             var date = datetime.Date;
 
-            var sessions = await _trainingSessionService.GetSessionsByDateAndUidAsync(userId, date);
+            var sessions = await _trainingSessionService.GetSessionsByDateAndUidAsync(id, date);
             return Ok(sessions);
         }
 

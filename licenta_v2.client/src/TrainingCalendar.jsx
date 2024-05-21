@@ -15,8 +15,8 @@ const MyCalendar = ({ apiUrl }) => {
     const handleDateClick = async (date) => {
         try {
             setSelectedDate(date);
-            const response = await axios.get(`${apiUrl}/AvailableTrainingSessions`, {
-                params: { userId: user.uid, datetime: date },
+            const response = await axios.get(`${apiUrl}/${user.uid}/my-sessions`, {
+                params: { datetime: date },
                 headers: {
                     Authorization: 'Bearer ' + user.accessToken,
                 }

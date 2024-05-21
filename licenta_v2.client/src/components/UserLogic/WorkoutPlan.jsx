@@ -12,8 +12,7 @@ const WorkoutPlan = () => {
     useEffect(() => {
         const fetchWorkout = async () => {
             try {
-                const response = await axios.get(`${API_URL_USER}/Workout`, {
-                    params: { id: user.uid },
+                const response = await axios.get(`${API_URL_USER}/${user.uid}/workout`, {
                     headers: {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
@@ -29,7 +28,7 @@ const WorkoutPlan = () => {
 
     const sendWorkout = async () => {
         try {
-            const response = await axios.post(`${API_URL_USER}/Workout`, workout, {
+            const response = await axios.post(`${API_URL_USER}/${user.uid}/workout/email`, workout, {
                 params: { email: user.email },
                 headers: {
                     Authorization: 'Bearer ' + user.accessToken,
