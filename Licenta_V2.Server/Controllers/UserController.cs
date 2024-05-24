@@ -141,8 +141,8 @@ namespace LatissimusDorsi.Server.Controllers
 
         }
 
-        [HttpPost("{id}/workout/email")]
-        public async Task<IActionResult> EmailWorkout(string id , [FromQuery] string email, [FromBody] Workout workout)
+        [HttpPost("workout/email")]
+        public async Task<IActionResult> EmailWorkout( [FromQuery] string email, [FromBody] Workout workout)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
             if (token == null)

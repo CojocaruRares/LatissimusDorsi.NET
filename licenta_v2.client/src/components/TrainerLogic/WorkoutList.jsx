@@ -16,8 +16,7 @@ const WorkoutList = () => {
     useEffect(() => {
         const fetchWorkout = async () => {
             try {
-                const response = await axios.get(`${API_URL_TRAINER}/Workout`, {
-                    params: { id: user.uid },
+                const response = await axios.get(`${API_URL_TRAINER}/${user.uid}/workouts`, {
                     headers: {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
@@ -33,8 +32,8 @@ const WorkoutList = () => {
 
     const deleteWorkout = async (workoutIndex) => {
         try {
-            await axios.delete(`${API_URL_TRAINER}/Workout`, {
-                params: { id: user.uid, index: workoutIndex },
+            await axios.delete(`${API_URL_TRAINER}/${user.uid}/workout`, {
+                params: { index: workoutIndex },
                 headers: {
                     Authorization: 'Bearer ' + user.accessToken,
                 }

@@ -17,8 +17,7 @@ const TrainingSessionList = () => {
     useEffect(() => {
         const fetchSessions = async () => {
             try {
-                const response = await axios.get(`${API_URL_TRAINER}/TrainingSession`, {
-                    params: { id: user.uid },
+                const response = await axios.get(`${API_URL_TRAINER}/${user.uid}/training-sessions`, {
                     headers: {
                         Authorization: 'Bearer ' + user.accessToken,
                     }

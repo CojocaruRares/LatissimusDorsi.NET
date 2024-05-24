@@ -39,8 +39,7 @@ const CreateTrainingSession = () => {
         e.preventDefault();
         try {
             trainingSession.trainerId = uid;
-            const response = await axios.post(`${API_URL_TRAINER}/TrainingSession`, trainingSession, {
-                params: { id: uid },
+            const response = await axios.post(`${API_URL_TRAINER}/${uid}/training-session`, trainingSession, {
                 headers: {
                     Authorization: 'Bearer ' + token,
                 }

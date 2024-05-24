@@ -44,9 +44,7 @@ const TrainingSessionsList = () => {
 
     const handleOpenDialog = async (trainerId) => {
         try {
-            const response = await axios.get(API_URL_TRAINER, {
-                params: { id: trainerId },              
-            });
+            const response = await axios.get(`${API_URL_TRAINER}/${trainerId}`);
             setTrainer(response.data);
             setDialogOpen(true);
         } catch (error) {

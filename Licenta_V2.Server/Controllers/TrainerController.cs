@@ -9,7 +9,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TrainerController : Controller
+    public class TrainersController : Controller
     {
         private readonly TrainerService _trainerService;
         private readonly WorkoutService _workoutService;
@@ -18,7 +18,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
         private readonly IWebHostEnvironment _environment;
 
 
-        public TrainerController(TrainerService trainerService, WorkoutService workoutService, FirebaseAuthService firebaseAuthService,
+        public TrainersController(TrainerService trainerService, WorkoutService workoutService, FirebaseAuthService firebaseAuthService,
            TrainingSessionService trainingSession, IWebHostEnvironment env)
         {
             this._workoutService = workoutService;
@@ -29,7 +29,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
             var user = await _trainerService.GetAsync(id);
@@ -64,7 +64,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
             return CreatedAtAction(nameof(Get), new { id = user.id }, user);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, [FromBody] Trainer trainer)
         {
             var existingTrainer = await _trainerService.GetAsync(id);
@@ -89,7 +89,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
         }
 
 
-        [HttpPost("Workout")]
+        [HttpPost("{id}/workout")]
         public async Task<IActionResult> PostWorkout(string id, [FromBody] Workout workout)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
@@ -116,10 +116,10 @@ namespace LatissimusDorsi.NET.Server.Controllers
             }
 
             await _workoutService.AddWorkoutAsync(id, workout);
-            return CreatedAtAction(nameof(Get),workout);
+            return Created("",workout);
         }
 
-        [HttpGet("Workout")]
+        [HttpGet("{id}/workouts")]
         public async Task<IActionResult> GetWorkouts(string id)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
@@ -139,8 +139,8 @@ namespace LatissimusDorsi.NET.Server.Controllers
             return Ok(workouts);
         }
 
-        [HttpDelete("Workout")]
-        public async Task<IActionResult> DeleteWorkout(string id,int index)
+        [HttpDelete("{id}/workout")]
+        public async Task<IActionResult> DeleteWorkout(string id, [FromQuery] int index)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
             if (token == null)
@@ -158,7 +158,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
             return NoContent();
         }
 
-        [HttpPost("TrainingSession")]
+        [HttpPost("{id}/training-session")]
         public async Task<IActionResult> CreateSession(string id, [FromBody] TrainingSession session)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
@@ -191,11 +191,10 @@ namespace LatissimusDorsi.NET.Server.Controllers
             
             session.trainerId = id;
             await _trainingSessionService.CreateAsync(session);
-            return CreatedAtAction(nameof(Get),session);
-
+            return Created("",session);
         }
 
-        [HttpGet("TrainingSession")]
+        [HttpGet("{id}/training-sessions")]
         public async Task<IActionResult> GetTrainingSessions(string id)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
@@ -215,8 +214,8 @@ namespace LatissimusDorsi.NET.Server.Controllers
 
         }
 
-        [HttpGet("AvailableTrainingSessions")]
-        public async Task<IActionResult> GetAvailableSessions(string userId, DateTime datetime)
+        [HttpGet("{id}/my-sessions")]
+        public async Task<IActionResult> GetAvailableSessions(string id, DateTime datetime)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
             if (token == null)
@@ -231,7 +230,7 @@ namespace LatissimusDorsi.NET.Server.Controllers
             }
             var date = datetime.Date;
 
-            var sessions = await _trainingSessionService.GetSessionsByDateAndTraineridAsync(userId, date);
+            var sessions = await _trainingSessionService.GetSessionsByDateAndTraineridAsync(id, date);
             return Ok(sessions);
         }
 

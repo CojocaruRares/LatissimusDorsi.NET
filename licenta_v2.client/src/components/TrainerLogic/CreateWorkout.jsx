@@ -75,8 +75,7 @@ const CreateWorkout = () => {
                 exercises: updatedWorkoutData
             };
 
-            await axios.post(`${API_URL_TRAINER}/Workout`, workoutToSend, {
-                params: { id: uid },
+            await axios.post(`${API_URL_TRAINER}/${uid}/workout`, workoutToSend, {
                 headers: {
                     Authorization: 'Bearer ' + token,
                 }

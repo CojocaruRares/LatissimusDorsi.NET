@@ -33,8 +33,7 @@ const TrainerProfile = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(API_URL_TRAINER, {
-                    params: { id: user.uid },
+                const response = await axios.get(`${API_URL_TRAINER}/${user.uid}`, {
                     headers: {
                         Authorization: 'Bearer ' + user.accessToken,
                     }

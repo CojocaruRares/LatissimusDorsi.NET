@@ -35,8 +35,7 @@ const EditTrainer = ({ open, handleClose, userData }) => {
                 console.error('Token is null or unavailable');
                 return;
             }
-            const response = await axios.put(API_URL_TRAINER, editedData, {
-                params: { id: editedData.id },
+            const response = await axios.put(`${API_URL_TRAINER}/${editedData.id}`, editedData, {
                 headers: {
                     Authorization: 'Bearer ' + token,
                 }
