@@ -142,7 +142,7 @@ namespace LatissimusDorsi.Server.Controllers
         }
 
         [HttpPost("workout/email")]
-        public async Task<IActionResult> EmailWorkout( [FromQuery] string email, [FromBody] Workout workout)
+        public async Task<IActionResult> EmailWorkout([FromBody] EmailWorkoutDTO data)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
             if (token == null)
@@ -157,8 +157,8 @@ namespace LatissimusDorsi.Server.Controllers
             }
           
             string path = Path.Combine(_environment.ContentRootPath,"Workout.pdf");
-            this._pdfService.GenerateWorkoutPDF(workout,path);
-            this._emailService.SendPdf(email,path);
+            this._pdfService.GenerateWorkoutPDF(data.Workout,path);
+            this._emailService.SendPdf(data.Email,path);
 
             return Ok("Email has been sent!");
         }
@@ -182,8 +182,8 @@ namespace LatissimusDorsi.Server.Controllers
             return Ok(sessions);
         }
 
-        [HttpPatch("training-sessions/{sessionId}/join")]
-        public async Task<IActionResult> JoinTrainingSession(string sessionId, [FromQuery] string userId)
+        [HttpPatch("training-sessions/{sessionId}")]
+        public async Task<IActionResult> JoinTrainingSession(string sessionId, [FromBody] UseridDTO userId)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
             if (token == null)
@@ -196,8 +196,7 @@ namespace LatissimusDorsi.Server.Controllers
             {
                 return Forbid();
             }
-
-            var isJoin = await _trainingSessionService.JoinSessionAsync(sessionId, userId);
+            var isJoin = await _trainingSessionService.JoinSessionAsync(sessionId, userId.UserId);
             if (isJoin == true)
                 return Ok("success: User joines session");
             else return BadRequest("fail: There are no available slots");

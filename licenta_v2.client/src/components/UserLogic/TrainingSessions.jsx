@@ -54,8 +54,7 @@ const TrainingSessionsList = () => {
 
     const joinTrainingSession = async (id) => {
         try {
-                const response = await axios.patch(`${API_URL_USER}/training-sessions/${id}/join`,null, {
-                params: { userId: user.uid },
+            const response = await axios.patch(`${API_URL_USER}/training-sessions/${id}`, { UserId:user.uid } , {
                 headers: {
                     Authorization: 'Bearer ' + user.accessToken,
                 }

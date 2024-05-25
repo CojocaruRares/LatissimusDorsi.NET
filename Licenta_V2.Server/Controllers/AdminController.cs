@@ -21,7 +21,7 @@ namespace LatissimusDorsi.Server.Controllers
             this._trainerService = trainerService;
         }
 
-        [HttpGet("Users")]
+        [HttpGet("users")]
         public async Task<IActionResult> GetAllUsers()
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
@@ -40,7 +40,7 @@ namespace LatissimusDorsi.Server.Controllers
             return Ok(users);
         }
 
-        [HttpGet("Trainers")]
+        [HttpGet("trainers")]
         public async Task<IActionResult> GetAllTrainers()
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
@@ -59,7 +59,7 @@ namespace LatissimusDorsi.Server.Controllers
             return Ok(trainers);
         }
 
-        [HttpDelete("Users")]
+        [HttpDelete("user/id")]
         public async Task<IActionResult> DeleteUser(string id)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
@@ -80,7 +80,7 @@ namespace LatissimusDorsi.Server.Controllers
             return NoContent();
         }
 
-        [HttpDelete("Trainers")]
+        [HttpDelete("trainer/id")]
         public async Task<IActionResult> DeleteTrainer(string id)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();

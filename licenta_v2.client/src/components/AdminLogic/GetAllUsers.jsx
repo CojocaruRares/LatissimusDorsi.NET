@@ -15,7 +15,7 @@ const GetAllUsers = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get(`${API_URL_ADMIN}/Users`, {
+                const response = await axios.get(`${API_URL_ADMIN}/users`, {
                     headers: {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
@@ -33,7 +33,7 @@ const GetAllUsers = () => {
 
     const DeleteUser = async (myId) => {
         try {
-                await axios.delete(`${API_URL_ADMIN}/Users`, {
+                await axios.delete(`${API_URL_ADMIN}/user/${myId}`, {
                 params: { id: myId },
                 headers: {
                     Authorization: 'Bearer ' + user.accessToken,

@@ -15,7 +15,7 @@ const GetAllTrainers = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get(`${API_URL_ADMIN}/Trainers`, {
+                const response = await axios.get(`${API_URL_ADMIN}/trainers`, {
                     headers: {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
@@ -33,8 +33,7 @@ const GetAllTrainers = () => {
 
     const DeleteTrainer = async (myId) => {
         try {
-            await axios.delete(`${API_URL_ADMIN}/Trainers`, {
-                params: { id: myId },
+            await axios.delete(`${API_URL_ADMIN}/trainer/${myId}`, {
                 headers: {
                     Authorization: 'Bearer ' + user.accessToken,
                 }

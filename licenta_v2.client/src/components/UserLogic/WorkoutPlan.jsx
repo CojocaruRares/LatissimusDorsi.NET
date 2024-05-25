@@ -28,7 +28,11 @@ const WorkoutPlan = () => {
 
     const sendWorkout = async () => {
         try {
-            const response = await axios.post(`${API_URL_USER}/workout/email`, workout, {
+            const requestBody = {
+                Email: user.email,
+                Workout: workout
+            };
+            const response = await axios.post(`${API_URL_USER}/workout/email`, requestBody, {
                 params: { email: user.email },
                 headers: {
                     Authorization: 'Bearer ' + user.accessToken,
