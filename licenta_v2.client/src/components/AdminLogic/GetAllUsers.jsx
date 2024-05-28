@@ -20,8 +20,8 @@ const GetAllUsers = () => {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
                 });
-                setUsers(response.data);
-                setFilteredUsers(response.data);
+                setUsers(response.data.resource);
+                setFilteredUsers(response.data.resource);
                 console.log(response.data);
             } catch (error) {
                 console.error('Error fetching users:', error);

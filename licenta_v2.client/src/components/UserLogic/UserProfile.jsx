@@ -39,7 +39,8 @@ const UserProfile = () => {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
                 });
-                setUserData(response.data);
+                setUserData(response.data.resource);
+                console.log(response.data);
             } catch (error) {
                 console.error('Error:', error);
             }

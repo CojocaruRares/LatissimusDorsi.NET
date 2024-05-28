@@ -20,8 +20,8 @@ const GetAllTrainers = () => {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
                 });
-                setTrainers(response.data);
-                setFilteredTrainers(response.data);
+                setTrainers(response.data.resource);
+                setFilteredTrainers(response.data.resource);
                 console.log(response.data);
             } catch (error) {
                 console.error('Error fetching users:', error);

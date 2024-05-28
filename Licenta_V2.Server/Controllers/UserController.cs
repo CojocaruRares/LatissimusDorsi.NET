@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Text.RegularExpressions;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace LatissimusDorsi.Server.Controllers
 {
@@ -46,8 +47,23 @@ namespace LatissimusDorsi.Server.Controllers
             {
                 return Forbid();
             }
+
             var user = await _userService.GetAsync(id);
-            return Ok(user);
+
+            if (user == null)
+            {
+                return NotFound($"User with id = {id} not found");
+            }
+
+            var resourceWrapper = new ResourceWrapper<User>(user);
+            resourceWrapper.Links.Add(new Link(Url.Action(nameof(Get), new { id = user.id }), "self", "GET"));
+            resourceWrapper.Links.Add(new Link(Url.Action(nameof(Put), new { id = user.id }), "update", "PUT"));
+            resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetWorkout), new { id = user.id }), "get_workout", "GET"));
+            resourceWrapper.Links.Add(new Link(Url.Action(nameof(EmailWorkout), new {id = user.id}), "email_workout", "POST"));
+            resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetTrainingSession)), "get_all_sessions", "GET"));
+            resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetAvailableSessions), new {id = user.id}), "get_my_sessions", "GET"));
+
+            return Ok(resourceWrapper);
         }
 
 
@@ -77,7 +93,9 @@ namespace LatissimusDorsi.Server.Controllers
             user.profileImage = name;
             await _userService.CreateAsync(user);
             await _firebaseAuthService.CreateUserWithClaim(authdto.Email, authdto.Password, user.id, "user");
+
             return CreatedAtAction(nameof(Get), new { id = user.id }, user);
+
         }
 
         [HttpPut("{id}")]
@@ -130,19 +148,21 @@ namespace LatissimusDorsi.Server.Controllers
             }
 
             var workout = await _workoutService.GetPerfectWorkoutAsync(user.Objective, user.weight, user.height, user.age, user.Gender);
-            if (workout != null)
-            {
-                return Ok(workout);
-            }
-            else
+            if (workout == null)         
             {
                 return NotFound();
             }
 
+            var resourceWrapper = new ResourceWrapper<Workout>(workout);
+            resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetWorkout), new { id = user.id }), "self", "GET"));
+            resourceWrapper.Links.Add(new Link(Url.Action(nameof(EmailWorkout), new { id = user.id }), "email_workout", "POST"));
+
+            return Ok(resourceWrapper);
+
         }
 
-        [HttpPost("workout/email")]
-        public async Task<IActionResult> EmailWorkout([FromBody] EmailWorkoutDTO data)
+        [HttpPost("{id}/workout/email")]
+        public async Task<IActionResult> EmailWorkout(string id, [FromBody] EmailWorkoutDTO data)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
             if (token == null)
@@ -179,6 +199,13 @@ namespace LatissimusDorsi.Server.Controllers
             }
 
             var sessions = await _trainingSessionService.GetAvailableAsync();
+
+            var resourceWrapper = new ResourceWrapper<IEnumerable<TrainingSession>>(sessions);
+            foreach (var session in sessions)
+            {
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(JoinTrainingSession), new { sessionId = session.id }), "join_session", "PATCH"));
+            }
+
             return Ok(sessions);
         }
 
@@ -198,8 +225,18 @@ namespace LatissimusDorsi.Server.Controllers
             }
             var isJoin = await _trainingSessionService.JoinSessionAsync(sessionId, userId.UserId);
             if (isJoin == true)
-                return Ok("success: User joines session");
-            else return BadRequest("fail: There are no available slots");
+            {
+                var response = new { Message = "success: User joined session" };
+                var resourceWrapper = new ResourceWrapper<object>(response);
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(JoinTrainingSession), new { sessionId = sessionId }), "self", "PATCH"));
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetTrainingSession)), "available_sessions", "GET"));
+
+                return Ok(resourceWrapper);
+            }
+            else
+            {
+                return BadRequest("fail: There are no available slots");
+            }
 
         }
 
@@ -220,7 +257,10 @@ namespace LatissimusDorsi.Server.Controllers
                 var userDTO = new SessionUsersDTO(user.profileImage, user.name, user.Objective, user.age, gender);
                 dataList.Add(userDTO); 
             }
-            return Ok(dataList);
+            var resourceWrapper = new ResourceWrapper<IEnumerable<SessionUsersDTO>>(dataList);
+            resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetEnrolledUsers), new { id = id }), "self", "GET"));
+
+            return Ok(resourceWrapper);
         }
 
         [HttpGet("{id}/my-sessions")]
@@ -240,7 +280,11 @@ namespace LatissimusDorsi.Server.Controllers
             var date = datetime.Date;
 
             var sessions = await _trainingSessionService.GetSessionsByDateAndUidAsync(id, date);
-            return Ok(sessions);
+
+            var resourceWrapper = new ResourceWrapper<IEnumerable<TrainingSession>>(sessions);
+            resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetAvailableSessions), new { id = id, datetime = datetime }), "self", "GET"));
+
+            return Ok(resourceWrapper);
         }
 
         [NonAction]

@@ -21,7 +21,7 @@ const MyCalendar = ({ apiUrl }) => {
                     Authorization: 'Bearer ' + user.accessToken,
                 }
             });
-            setSessions(response.data);
+            setSessions(response.data.resource);
         } catch (error) {
             console.error('Error:', error);
         }

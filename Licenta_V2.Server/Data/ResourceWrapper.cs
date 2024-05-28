@@ -2,12 +2,12 @@
 {
     public class ResourceWrapper<T>
     {
-        public T Data { get; set; }
+        public T Resource { get; set; }
         public List<Link> Links { get; set; }
 
         public ResourceWrapper(T data) 
         {
-            Data = data;
+            Resource = data;
             Links = new List<Link>();
         }
     }

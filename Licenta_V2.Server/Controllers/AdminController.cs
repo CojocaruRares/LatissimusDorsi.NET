@@ -1,4 +1,6 @@
-﻿using LatissimusDorsi.Server.Services;
+﻿using LatissimusDorsi.Server.Data;
+using LatissimusDorsi.Server.Models;
+using LatissimusDorsi.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LatissimusDorsi.Server.Controllers
@@ -37,7 +39,15 @@ namespace LatissimusDorsi.Server.Controllers
             }
 
             var users = await _userService.GetPartialAsync();
-            return Ok(users);
+
+            var resourceWrapper = new ResourceWrapper<IEnumerable<UserProjection>>(users);
+            foreach (var user in users)
+            {
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetAllUsers)), "self", "GET"));
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(DeleteUser), new { id = user.Id }), "delete_user", "DELETE"));
+            }
+
+            return Ok(resourceWrapper);
         }
 
         [HttpGet("trainers")]
@@ -56,7 +66,15 @@ namespace LatissimusDorsi.Server.Controllers
             }
 
             var trainers = await _trainerService.GetAsync();
-            return Ok(trainers);
+            var resourceWrapper = new ResourceWrapper<IEnumerable<Trainer>>(trainers);
+
+            foreach (var trainer in trainers)
+            {
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetAllTrainers)), "self", "GET"));
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(DeleteTrainer), new { id = trainer.id }), "delete_trainer", "DELETE"));
+            }
+
+            return Ok(resourceWrapper);
         }
 
         [HttpDelete("user/id")]

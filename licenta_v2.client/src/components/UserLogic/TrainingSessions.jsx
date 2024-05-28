@@ -22,7 +22,7 @@ const TrainingSessionsList = () => {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
                 });
-                setSessions(response.data);
+                setSessions(response.data.resource);
                 setFilteredSessions(response.data);
                 console.log(response.data);
             }
@@ -44,7 +44,11 @@ const TrainingSessionsList = () => {
 
     const handleOpenDialog = async (trainerId) => {
         try {
-            const response = await axios.get(`${API_URL_TRAINER}/${trainerId}`);
+            const response = await axios.get(`${API_URL_TRAINER}/${trainerId}`, {
+                headers: {
+                    Authorization: 'Bearer ' + user.accessToken,
+                }
+            });
             setTrainer(response.data);
             setDialogOpen(true);
         } catch (error) {

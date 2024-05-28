@@ -11,7 +11,7 @@ const SessionView = ({ session }) => {
         const fetchUsers = async () => {
             try {
                 const response = await axios.get(`${API_URL_USER}/training-sessions/${session.id}/enrolled-users`);
-                setUsers(response.data);
+                setUsers(response.data.resource);
                 console.log(response.data);
             }
             catch (exception) {

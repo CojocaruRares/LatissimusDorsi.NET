@@ -17,7 +17,7 @@ const WorkoutPlan = () => {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
                 });
-                setWorkout(response.data);             
+                setWorkout(response.data.resource);             
             }
             catch (error) {
                 console.log("Exception: ", error);
@@ -32,7 +32,7 @@ const WorkoutPlan = () => {
                 Email: user.email,
                 Workout: workout
             };
-            const response = await axios.post(`${API_URL_USER}/workout/email`, requestBody, {
+            const response = await axios.post(`${API_URL_USER}/${user.uid}/workout/email`, requestBody, {
                 params: { email: user.email },
                 headers: {
                     Authorization: 'Bearer ' + user.accessToken,

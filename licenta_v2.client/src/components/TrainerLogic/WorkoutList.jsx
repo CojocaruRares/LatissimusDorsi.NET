@@ -21,7 +21,7 @@ const WorkoutList = () => {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
                 });
-                setWorkouts(response.data);
+                setWorkouts(response.data.resource);
             }
             catch (error) {
                 console.log("Exception: ", error);
@@ -32,20 +32,18 @@ const WorkoutList = () => {
 
     const deleteWorkout = async (workoutIndex) => {
         try {
-            await axios.delete(`${API_URL_TRAINER}/${user.uid}/workout`, {
-                params: { index: workoutIndex },
+            await axios.delete(`${API_URL_TRAINER}/${user.uid}/workout/${workoutIndex}`, {
                 headers: {
                     Authorization: 'Bearer ' + user.accessToken,
                 }
             });
             
-            const response = await axios.get(`${API_URL_TRAINER}/Workout`, {
-                params: { id: user.uid },
+            const response = await axios.get(`${API_URL_TRAINER}/${user.uid}/workouts`, {
                 headers: {
                     Authorization: 'Bearer ' + user.accessToken,
                 }
             });
-            setWorkouts(response.data);
+            setWorkouts(response.data.resource);
         } catch (error) {
             console.log("Exception: ", error);
         }

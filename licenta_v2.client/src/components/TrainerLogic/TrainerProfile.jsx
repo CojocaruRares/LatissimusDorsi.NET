@@ -38,7 +38,8 @@ const TrainerProfile = () => {
                         Authorization: 'Bearer ' + user.accessToken,
                     }
                 });
-                setTrainerData(response.data);
+                setTrainerData(response.data.resource);
+                console.log(response.data);
             } catch (error) {
                 console.error('Error:', error);
             }

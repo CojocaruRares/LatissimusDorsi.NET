@@ -32,8 +32,30 @@ namespace LatissimusDorsi.NET.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var user = await _trainerService.GetAsync(id);
-            return Ok(user);
+
+            string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
+            string role = await _firebaseAuthService.GetRoleForUser(token);
+          
+            var trainer = await _trainerService.GetAsync(id);
+            if (role == "trainer")
+            {
+                var resourceWrapper = new ResourceWrapper<Trainer>(trainer);
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(Get), new { id }), "self", "GET"));
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(PostWorkout), new { id }), "create_workout", "POST"));
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetWorkouts), new { id }), "get_workouts", "GET"));
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(DeleteWorkout), new { id, index = 0 }), "delete_workout", "DELETE"));
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(CreateSession), new { id }), "create_session", "POST"));
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetTrainingSessions), new { id }), "get_training_sessions", "GET"));
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetAvailableSessions), new { id }), "get_available_sessions", "GET"));
+
+                return Ok(resourceWrapper);
+            }
+            else return Ok(trainer);
         }
 
         [HttpPost]
@@ -136,11 +158,17 @@ namespace LatissimusDorsi.NET.Server.Controllers
 
             var workouts = await _workoutService.GetWorkoutAsync(id);
 
-            return Ok(workouts);
+            var resourceWrapper = new ResourceWrapper<IEnumerable<Workout>>(workouts);
+            foreach (var workout in workouts)
+            {
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(PostWorkout), new { id }), "create_workout", "POST"));
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(DeleteWorkout), new { id, index = 0 }), "delete_workout", "DELETE"));
+            }
+            return Ok(resourceWrapper);
         }
 
-        [HttpDelete("{id}/workout")]
-        public async Task<IActionResult> DeleteWorkout(string id, [FromQuery] int index)
+        [HttpDelete("{id}/workout/{index}")]
+        public async Task<IActionResult> DeleteWorkout(string id, int index)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
             if (token == null)
@@ -210,12 +238,18 @@ namespace LatissimusDorsi.NET.Server.Controllers
             }
 
             var sessions = await _trainingSessionService.GetByTrainer(id);
-            return Ok(sessions);
+            var resourceWrapper = new ResourceWrapper<IEnumerable<TrainingSession>>(sessions);
+            foreach (var session in sessions)
+            {
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(CreateSession), new { id }), "create_session", "POST"));
+                resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetAvailableSessions), new { id, datetime = session.startDate }), "get_available_sessions", "GET"));
+            }
+            return Ok(resourceWrapper);
 
         }
 
         [HttpGet("{id}/my-sessions")]
-        public async Task<IActionResult> GetAvailableSessions(string id, DateTime datetime)
+        public async Task<IActionResult> GetAvailableSessions(string id, [FromQuery] DateTime datetime)
         {
             string token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
             if (token == null)
@@ -231,7 +265,11 @@ namespace LatissimusDorsi.NET.Server.Controllers
             var date = datetime.Date;
 
             var sessions = await _trainingSessionService.GetSessionsByDateAndTraineridAsync(id, date);
-            return Ok(sessions);
+
+            var resourceWrapper = new ResourceWrapper<IEnumerable<TrainingSession>>(sessions);
+            resourceWrapper.Links.Add(new Link(Url.Action(nameof(GetAvailableSessions), new { id = id, datetime = datetime }), "self", "GET"));
+
+            return Ok(resourceWrapper);
         }
 
 
