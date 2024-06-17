@@ -7,40 +7,17 @@ using Testing.Pages;
 namespace Testing
 {
     [TestClass]
-    public class LoginTest
+    public class LoginTest : BaseTest
     {
-        private IWebDriver _driver;
-
-        [TestInitialize]
-        public void SetupTest()
-        {
-            _driver = new EdgeDriver();
-            _driver.Manage().Window.Maximize();
-            _driver.Navigate().GoToUrl("https://localhost:5173/");
- 
-        }
-
-        [TestCleanup]
-        public void CleanupTest()
-        {
-            _driver.Close();
-        }
-
+        
         [TestMethod]
         public void ValidLogInUser()
         {
             HomePage homePage = new HomePage(_driver);
-            SignInPage signInPage = homePage.GoToSignInPage();
-
-            string expectedTitle = "Sign in";
-            string actualTitle = signInPage.GetPageTitle();
-
-            Assert.AreEqual(expectedTitle, actualTitle, "Page title is not the expected one.");
-
             string email = "user_test@gmail.com";
             string password = "user_test";
 
-            signInPage.FillUserCred(email, password);
+            SignInPage signInPage = PerformLogin(email, password, homePage);
             homePage.setRole();
             var role = homePage.GetRoleText();
             Assert.IsTrue(role == "Role: user", "Log in failes");
@@ -50,17 +27,10 @@ namespace Testing
         public void ValidLogInTrainer()
         {
             HomePage homePage = new HomePage(_driver);
-            SignInPage signInPage = homePage.GoToSignInPage();
-
-            string expectedTitle = "Sign in";
-            string actualTitle = signInPage.GetPageTitle();
-
-            Assert.AreEqual(expectedTitle, actualTitle, "Page title is not the expected one.");
-
             string email = "trainer_test@gmail.com";
             string password = "trainer_test";
 
-            signInPage.FillUserCred(email, password);
+            SignInPage signInPage = PerformLogin(email, password, homePage);
             homePage.setRole();
             var role = homePage.GetRoleText();
             Assert.IsTrue(role == "Role: trainer", "Log in failes");
@@ -70,16 +40,10 @@ namespace Testing
         public void InvalidLogInUser()
         {
             HomePage homePage = new HomePage(_driver);
-            SignInPage signInPage = homePage.GoToSignInPage();
-
-            string expectedTitle = "Sign in";
-            string actualTitle = signInPage.GetPageTitle();
-
-            Assert.AreEqual(expectedTitle, actualTitle, "Page title is not the expected one.");
 
             string email = "randomabcd";
             string password = "12345";
-
+            SignInPage signInPage = PerformLogin(email, password, homePage);
             signInPage.FillUserCred(email, password);
             Assert.IsTrue(signInPage.IsErrorDisplayed(), "Error message is not displayed.");
         }
