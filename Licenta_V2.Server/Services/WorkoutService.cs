@@ -60,9 +60,7 @@ namespace LatissimusDorsi.Server.Services
         public async Task<Workout> GetPerfectWorkoutAsync(string objective, int weight, int height, int age, byte gender)
         {
             int genderFactor = (gender==1) ? 10 : 0;
-            float intensityFactor = (220 - age) * (weight / height);
             string desiredIntensity = CalculateDesiredIntensity(age, weight, height, genderFactor);
-       
 
             var filter = Builders<Trainer>.Filter.Where(t => t.specialization == objective);
             var trainer = await _trainerCollection.Find(filter).FirstOrDefaultAsync();

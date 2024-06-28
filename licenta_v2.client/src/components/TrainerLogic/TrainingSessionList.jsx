@@ -80,7 +80,7 @@ const TrainingSessionList = () => {
                         <p>No workouts available. Create one!</p>
                     )}
                     <div className="d-flex justify-content-center">
-                        <button className="btn btn-lg btn-primary  m-4 " onClick={navigateToCreateTrainingSession}>Create Training Program</button>
+                        <button className="btn btn-lg btn-primary  m-4 " onClick={navigateToCreateTrainingSession}>Create Training Session</button>
                     </div>
                 </div>
             )}

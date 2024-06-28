@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LatissimusDorsi.Server.Controllers.AdminController">
+    <Position X="9" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAKAAAIAAAAAAAAAAAAAGCAEAAAA=</HashCode>
+      <FileName>Controllers\AdminController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_firebaseAuthService" />
+      <Field Name="_trainerService" />
+      <Field Name="_trainingSessionService" />
+      <Field Name="_userService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="LatissimusDorsi.NET.Server.Controllers.TrainersController">
+    <Position X="15.25" Y="0.5" Width="2.25" />
+    <AssociationLine Name="_trainingSessionService" Type="LatissimusDorsi.Server.Services.TrainingSessionService" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="16.375" Y="4.492" />
+        <Point X="16.375" Y="4.742" />
+        <Point X="21.625" Y="4.742" />
+        <Point X="21.625" Y="12.438" />
+        <Point X="21.25" Y="12.438" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAhBAAIAAAICACAAAIQEAAAAKAAAAATo=</HashCode>
+      <FileName>Controllers\TrainerController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_firebaseAuthService" />
+      <Field Name="_trainerService" />
+      <Field Name="_trainingSessionService" />
+      <Field Name="_workoutService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="LatissimusDorsi.Server.Controllers.UsersController">
+    <Position X="12" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAABAAIAAAAEQCAAAJEAAAAAOEAAAADk=</HashCode>
+      <FileName>Controllers\UserController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_firebaseAuthService" />
+      <Field Name="_emailService" />
+      <Field Name="_pdfService" />
+      <Field Name="_userService" />
+      <Field Name="_trainingSessionService" />
+      <Field Name="_workoutService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="LatissimusDorsi.Server.Services.EmailService">
+    <Position X="5.75" Y="10.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAE=</HashCode>
+      <FileName>Services\EmailService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LatissimusDorsi.Server.Services.FirebaseAuthService">
+    <Position X="9" Y="6.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAEAAAAAAABAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Services\FirebaseAuthService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LatissimusDorsi.Server.Services.PdfService">
+    <Position X="9.25" Y="11.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\PdfService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LatissimusDorsi.Server.Services.TrainerService">
+    <Position X="15.5" Y="6.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAIIAAAIA=</HashCode>
+      <FileName>Services\TrainerService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LatissimusDorsi.Server.Services.TrainingSessionService">
+    <Position X="18.25" Y="10" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAABAAAAAACBAAAAAAACICAAAAEAAAAKJAABAA=</HashCode>
+      <FileName>Services\TrainingSessionService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LatissimusDorsi.Server.Services.UserService">
+    <Position X="12" Y="6.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAEAAAAAAAAAAAAAAgAAAAAIIAAAIA=</HashCode>
+      <FileName>Services\UserService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LatissimusDorsi.Server.Services.WorkoutService">
+    <Position X="13.25" Y="10.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAIAABAAAAAAQAAAAAAAQCAAAAAA=</HashCode>
+      <FileName>Services\WorkoutService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
