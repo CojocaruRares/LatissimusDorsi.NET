@@ -46,5 +46,10 @@ namespace Testing.Pages
             return new WorkoutPage(_driver);
         }
 
+        public SessionPage ClickSessions()
+        {
+            _sessions.Click();
+            return new SessionPage(_driver);
+        }
     }
 }

@@ -80,7 +80,7 @@ namespace Testing.Pages
         {
             var saveButton = _driver.FindElement(By.CssSelector(".btn-save button"));
             ((IJavaScriptExecutor)_driver).ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             saveButton.Click();
         }
 
