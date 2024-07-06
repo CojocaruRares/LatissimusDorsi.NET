@@ -18,4 +18,8 @@
     <PackageReference Include="Selenium.WebDriver" Version="4.21.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Licenta_V2.Server\LatissimusDorsi.Server.csproj" />
+  </ItemGroup>
+
 </Project>

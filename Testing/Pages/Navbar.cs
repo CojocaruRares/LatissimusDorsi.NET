@@ -40,5 +40,11 @@ namespace Testing.Pages
             return new ProfilePage(_driver);
         }
 
+        public WorkoutPage ClickWorkout()
+        {
+            _workout.Click();
+            return new WorkoutPage(_driver);
+        }
+
     }
 }

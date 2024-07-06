@@ -26,13 +26,16 @@ namespace Testing
             Thread.Sleep(1000);
             IWebElement navMenu = _driver.FindElement(By.CssSelector("div.menu"));
             IWebElement planWorkout = _driver.FindElement(By.CssSelector("div.plan-workout"));
-            IWebElement gridContainer = _driver.FindElement(By.CssSelector("div.athlete-comments-container")); 
-            string gridPaddingValue = gridContainer.GetCssValue("padding");
-            string flexDirection = planWorkout.GetCssValue("flex-direction");
+            IWebElement planSession = _driver.FindElement(By.CssSelector("div.plan-session"));
+            IWebElement userImage = _driver.FindElement(By.CssSelector("img.user-image"));
+            string flexDirectionWorkout = planWorkout.GetCssValue("flex-direction");
+            string flexDirectionSession = planSession.GetCssValue("flex-direction");
+            string userImageWidth = userImage.GetCssValue("height");
 
             Assert.IsTrue(navMenu.Displayed, "Menu is not displayed");
-            Assert.AreEqual("10px", gridPaddingValue.Trim(), "Grid is not responsive.");
-            Assert.AreEqual("column", flexDirection, "Flex direction is not column for plan-workout element.");
+            Assert.AreEqual("column", flexDirectionWorkout, "Flex direction is not column for plan-workout element.");
+            Assert.AreEqual("column", flexDirectionSession, "Flex direction is not column for plan-session element.");
+            Assert.AreEqual("100px", userImageWidth, "User image height is not as expected.");
         }
     }
 }
