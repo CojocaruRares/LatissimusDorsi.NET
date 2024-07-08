@@ -14,7 +14,8 @@ namespace Testing
         [TestMethod]
         public void CreateOverlappingSessions()
         {
-            DateTime date = DateTime.UtcNow.AddDays(2);
+            Random rand = new Random();
+            DateTime date = DateTime.Now.AddDays(rand.Next(1,360));
             string dateString = date.ToString("MMddyyyy");
             string timeString = date.ToString("HH:mm");
             

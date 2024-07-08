@@ -21,6 +21,7 @@ import TrainingSessionList from './components/TrainerLogic/TrainingSessionList';
 import AdminNavbar from './components/AdminLogic/AdminNavbar';
 import GetAllUsers from './components/AdminLogic/GetAllUsers';
 import GetAllTrainers from './components/AdminLogic/GetAllTrainers';
+import Footer from './Footer';
 
 function App() {
     const [isLogged, SetLog] = useState(false);
@@ -89,7 +90,9 @@ function App() {
                 <Route path="/GetAllUsers" element={<GetAllUsers />} />
                 <Route path="/GetAllTrainers" element={<GetAllTrainers />} />
             </Routes>
+            <Footer/>
         </Router>
+     
     );
 }
 
